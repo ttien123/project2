@@ -1,0 +1,28 @@
+@import '../GlobalStyles//media-query';
+
+.wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    overflow: hidden;
+
+    &-input {
+        display: block;
+        padding: 20px;
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+    }
+    &-icon {
+        width: 80px;
+        background: white;
+        height: 100%;
+        @include ultra_tablet_max {
+            width: 60px;
+        }
+    }
+}

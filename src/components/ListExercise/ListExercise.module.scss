@@ -1,0 +1,25 @@
+@import '../../components/GlobalStyles/media-query';
+
+.wrapper {
+    padding: 20px;
+    padding-top: 60px;
+    border: 1px solid #00000080;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80vh;
+    &-list {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    @include ultra_tablet_max {
+        border: none;
+        padding: 0px;
+        padding-top: 20px;
+        gap: 12px;
+    }
+}

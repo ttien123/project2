@@ -1,0 +1,22 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    .info {
+        &-box-avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        &-email {
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        &-des {
+            font-weight: 700;
+            font-size: 20px;
+        }
+    }
+}

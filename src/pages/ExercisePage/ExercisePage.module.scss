@@ -1,0 +1,168 @@
+@import '../../components//GlobalStyles//media-query';
+
+.wrapper {
+    background-color: var(--bg-primary);
+    min-height: 100vh;
+    &-menu {
+        display: none;
+        @include ultra_tablet_max {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 65px;
+            padding: 20px;
+            background: var(--bg-bold-primary);
+        }
+        &-icon {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+        }
+        &-name {
+            flex: 1;
+            height: 100%;
+            text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+    }
+    &-main {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 65px);
+        &-info {
+            padding: 20px;
+            border: 1px solid #00000080;
+            @include ultra_tablet_max {
+                border: none;
+                padding-bottom: 0;
+            }
+            &-name {
+                margin: 0;
+                margin-bottom: 16px;
+                font-weight: 700;
+                font-size: 20px;
+                display: block;
+                @include ultra_tablet_max {
+                    display: none;
+                }
+            }
+            &-time {
+                font-weight: 400;
+                font-size: 16px;
+                margin-bottom: 16px;
+            }
+            &-process {
+                background: #bab7b7;
+                height: 20px;
+                border-radius: 4px;
+                position: relative;
+                overflow: hidden;
+                &-percent {
+                    position: absolute;
+                    top: 0;
+                    height: 100%;
+                    width: 60%;
+                    background: #41c54e;
+                }
+            }
+        }
+
+        &-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px 60px;
+            flex: 1;
+            @include ultra_tablet_max {
+                padding: 16px;
+            }
+            .ask-container {
+                &-des {
+                    font-weight: 700;
+                    margin-bottom: 16px;
+                    margin-top: 0;
+                    font-size: 20px;
+                }
+                &-answer {
+                    &-item {
+                        margin: 16px 0px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: start;
+                        &-checkbox {
+                            width: 36px;
+                            height: 36px;
+                        }
+                        &-value {
+                            font-weight: 400;
+                            font-size: 16px;
+                            margin-left: 16px;
+                        }
+                    }
+                }
+            }
+            .btn-pageExercise {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                &-prev {
+                    width: 160px;
+                    height: 60px;
+                    background: #eee7a9;
+                    border: 1px solid #777354;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    font-weight: 700;
+                    @include ultra_tablet_max {
+                        width: 120px;
+                        height: 40px;
+                    }
+                }
+                &-next {
+                    width: 160px;
+                    height: 60px;
+                    background: #eee7a9;
+                    border: 1px solid #777354;
+                    border-radius: 4px;
+                    font-size: 16px;
+                    font-weight: 700;
+                    @include ultra_tablet_max {
+                        width: 120px;
+                        height: 40px;
+                    }
+                }
+            }
+            .box-btn-open-ListExe {
+                margin-top: 16px;
+                text-align: center;
+                display: none;
+                @include ultra_tablet_max {
+                    display: block;
+                }
+                &-item {
+                    width: 200px;
+                    height: 50px;
+                    background: #9f9d9f;
+                    font-weight: 700;
+                    border-radius: 999px;
+                    font-size: 20px;
+
+                    display: none;
+                    @include ultra_tablet_max {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
+
+    &-exercise {
+        min-height: 100vh;
+    }
+}

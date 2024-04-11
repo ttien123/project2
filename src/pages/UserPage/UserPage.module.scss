@@ -1,0 +1,152 @@
+@import '../../components//GlobalStyles//media-query';
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    &-menu {
+        display: none;
+        @include ultra_tablet_max {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 65px;
+            padding: 20px;
+            background: var(--bg-bold-primary);
+        }
+        &-icon {
+            position: absolute;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+        }
+        &-name {
+            flex: 1;
+            height: 100%;
+            text-align: center;
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+        }
+    }
+    .info {
+        background: var(--bg-primary, #d9d9d9);
+        padding: 40px;
+
+        @include ultra_tablet_max {
+            display: none;
+        }
+    }
+
+    .main {
+        flex: 1;
+        padding: 20px 40px;
+        background: var(--bg-medium-primary, #c4c4c4);
+        @include ultra_tablet_max {
+            padding: 20px 16px;
+        }
+        .search-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+
+            &-input {
+                flex: 1;
+                margin-right: 20px;
+                height: 100%;
+                @include ultra_tablet_max {
+                    margin-right: 0;
+                }
+            }
+            &-select {
+                height: 100%;
+                width: 280px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border: 1px solid #000000;
+                background: var(--bg-primary, #d9d9d9);
+                padding: 20px;
+                border-radius: 4px;
+
+                @include ultra_tablet_max {
+                    display: none;
+                }
+                &-des {
+                }
+                &-icon {
+                }
+            }
+        }
+
+        .main-exe {
+            margin-top: 20px;
+            padding: 20px 80px;
+            background-color: var(--bg-primary, #d9d9d9);
+            @include ultra_tablet_max {
+                padding: 20px 16px;
+                max-height: 65vh;
+                overflow: auto;
+            }
+            &-container {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 40px 80px;
+                @include ultra_tablet_max {
+                    grid-template-columns: repeat(1, minmax(0, 1fr));
+                }
+                .exe-item {
+                    grid-column: span 1 / span 1;
+                    display: block;
+                    color: #000000;
+                    padding: 12px 20px;
+                    border: 1px solid #000000;
+                    &-name {
+                        font-size: 16px;
+                        font-weight: 500;
+                    }
+                    &-des {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        margin: 8px 0 16px;
+                        &-time {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            &-img {
+                                margin-right: 16px;
+                            }
+                            &-number {
+                            }
+                        }
+
+                        &-goal {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            &-img {
+                                margin-right: 16px;
+                            }
+                            &-number {
+                            }
+                        }
+                    }
+
+                    &-star {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        &-icon {
+                            color: var(--bg-primary);
+                        }
+                        &-fill {
+                            color: var(--bg-star);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+.ant-pagination .ant-pagination-options {
+    display: none;
+}
+
+.ant-pagination .ant-pagination-disabled {
+    background: #919eab !important;
+    border: none !important;
+}
+
+.ant-pagination .ant-pagination-item {
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+}
+
+.ant-pagination .ant-pagination-item-active {
+    font-weight: 600;
+    background-color: #ffffff;
+    border-color: #1677ff;
+}
+
+.ant-pagination-item-link {
+    color: #c4cdd5 !important;
+}
+
+.ant-pagination .ant-pagination-prev {
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+}
+
+.ant-pagination .ant-pagination-next {
+    background: #ffffff;
+    border: 1px solid #dfe3e8;
+}
