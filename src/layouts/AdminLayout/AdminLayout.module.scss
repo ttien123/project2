@@ -1,0 +1,16 @@
+.wrapper {
+    height: 100vh;
+    background: var(--bg-medium-primary);
+    &-container {
+        height: 100%;
+
+        .sideNav {
+            padding: 40px;
+            background: var(--bg-primary);
+        }
+
+        .main {
+            padding: 20px 40px;
+        }
+    }
+}

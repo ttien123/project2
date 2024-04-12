@@ -3,8 +3,19 @@ import imgAvatarUser from 'src/assets/images/avatarUser.png';
 import classNames from 'classnames/bind';
 import styles from './UserInfo.module.scss';
 import { Button } from 'antd';
+import useGetIsAuthenticated from 'src/zustand/auth.ztd';
+import { setIsAuthenticatedToLS } from 'src/utils/auth';
+import useGetInfoExercise from 'src/zustand/exercise.ztd';
 const cx = classNames.bind(styles);
 const UserInfo = () => {
+    const { setIsAuthenticated } = useGetIsAuthenticated();
+    const { reset } = useGetInfoExercise();
+
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setIsAuthenticatedToLS(false);
+        reset();
+    };
     return (
         <div className={cx('wrapper')}>
             <div>
@@ -16,7 +27,9 @@ const UserInfo = () => {
                     <h4 className={cx('info-des')}>Point: 2488</h4>
                 </div>
             </div>
-            <Button className={cx('btn-logout')}>LOGOUT</Button>
+            <Button onClick={handleLogout} className={cx('btn-logout')}>
+                LOGOUT
+            </Button>
         </div>
     );
 };

@@ -34,7 +34,7 @@ const ResultPage = () => {
                 <div className={cx('wrapper-container-result')}>
                     <div className={cx('wrapper-container-result-answer')}>
                         {listResult.map((item) => (
-                            <div className={cx('result-answer-item')}>
+                            <div key={item.id} className={cx('result-answer-item')}>
                                 <div className={cx('result-answer-item-des')}>{item.description}</div>
                                 <div className={cx('result-answer-item-value')}>{item.value}</div>
                             </div>

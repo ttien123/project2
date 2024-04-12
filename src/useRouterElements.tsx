@@ -4,13 +4,17 @@ import Login from './pages/Login';
 import UserPage from './pages/UserPage';
 import ExercisePage from './pages/ExercisePage';
 import ResultPage from './pages/ResultPage';
+import AdminLayout from './layouts/AdminLayout';
+import AdminPage from './pages/AdminPage';
+import TestQuizPage from './pages/TestQuizPage';
+import useGetIsAuthentication from './zustand/auth.ztd';
 
 function ProtectedRoute() {
-    const isAuthenticated = true;
+    const { isAuthenticated } = useGetIsAuthentication();
     return isAuthenticated ? <Outlet /> : <Navigate to={'/login'} />;
 }
 function RejectedRoute() {
-    const isAuthenticated = true;
+    const { isAuthenticated } = useGetIsAuthentication();
 
     return !isAuthenticated ? <Outlet /> : <Navigate to={'/'} />;
 }
@@ -32,6 +36,26 @@ const useRouterElements = () => {
                 {
                     path: path.resultPage,
                     element: <ResultPage />,
+                },
+            ],
+        },
+        {
+            path: '',
+            element: <ProtectedRoute />,
+            children: [
+                {
+                    path: path.userPage,
+                    element: <AdminLayout />,
+                    children: [
+                        {
+                            path: path.admin,
+                            element: <AdminPage />,
+                        },
+                        {
+                            path: path.testQuiz,
+                            element: <TestQuizPage />,
+                        },
+                    ],
                 },
             ],
         },
