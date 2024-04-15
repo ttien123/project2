@@ -1,4 +1,4 @@
-import { Button, Col, Radio, Row, Space } from 'antd';
+import { Button, Col, Row } from 'antd';
 import DrawerCst from 'src/components/Drawer';
 import ListExercise from 'src/components/ListExercise/ListExercise';
 import UserInfo from 'src/components/UserInfo';
@@ -11,12 +11,14 @@ import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import ListAnswer from './components/ListAnswer';
 import useGetTime from 'src/hooks/useGetTime';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import path from 'src/constants/path';
 const cx = classNames.bind(styles);
 const ExercisePage = () => {
+    const negative = useNavigate();
     const { numQuestionNow, setNumQuestionNow } = useGetInfoExercise();
     const { timeRemaining, totalSeconds } = useGetTime(0, 0, 10);
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalSeconds);
-
     const handlePrevExercise = () => {
         setNumQuestionNow(numQuestionNow - 1);
     };
@@ -30,6 +32,12 @@ const ExercisePage = () => {
         const newTotalTimeRemainingTime = hours * 3600 + minutes * 60 + seconds;
         setTotalTimeRemaining(newTotalTimeRemainingTime);
     }, [timeRemaining]);
+
+    // useEffect(() => {
+    //     if (totalTimeRemaining === 0) {
+    //         negative(path.resultPage);
+    //     }
+    // }, [totalTimeRemaining]);
 
     return (
         <div className={cx('wrapper')}>

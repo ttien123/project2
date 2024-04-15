@@ -2,19 +2,26 @@ import { Pagination, PaginationProps } from 'antd';
 import classNames from 'classnames/bind';
 import styles from './Pagination.module.scss';
 const cx = classNames.bind(styles);
-const PaginationCst = () => {
+
+interface Props {
+    setNumberPage: React.Dispatch<React.SetStateAction<number>>;
+    setPageSize: React.Dispatch<React.SetStateAction<number>>;
+    totalListExercise: number;
+}
+
+const PaginationCst = ({ setNumberPage, setPageSize, totalListExercise }: Props) => {
     const onChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
-        console.log(current, pageSize);
+        setNumberPage(current - 1);
     };
     return (
         <Pagination
             showSizeChanger
             onChange={onChange}
             defaultCurrent={1}
-            total={100}
-            pageSizeOptions={[0]}
+            total={totalListExercise}
+            pageSizeOptions={[6]}
             showLessItems
-            pageSize={10}
+            pageSize={6}
         />
     );
 };

@@ -42,6 +42,8 @@
         flex: 1;
         padding: 20px 40px;
         background: var(--bg-medium-primary, #c4c4c4);
+        display: flex;
+        flex-direction: column;
         @include ultra_tablet_max {
             padding: 20px 16px;
         }
@@ -60,28 +62,24 @@
                 }
             }
             &-select {
-                height: 100%;
-                width: 280px;
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                border: 1px solid #000000;
                 background: var(--bg-primary, #d9d9d9);
-                padding: 20px;
-                border-radius: 4px;
-
+                height: 100%;
+                position: relative;
                 @include ultra_tablet_max {
                     display: none;
                 }
-                &-des {
-                }
                 &-icon {
+                    position: absolute;
+                    top: 50%;
+                    right: 16px;
+                    transform: translateY(-50%);
                 }
             }
         }
 
         .main-exe {
             margin-top: 20px;
+            flex: 1;
             padding: 20px 80px;
             background-color: var(--bg-primary, #d9d9d9);
             @include ultra_tablet_max {

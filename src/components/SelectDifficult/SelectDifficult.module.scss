@@ -1,0 +1,8 @@
+@import '../../components//GlobalStyles/media-query';
+
+.main {
+    height: 100%;
+    @include ultra_tablet_max {
+        display: none;
+    }
+}
