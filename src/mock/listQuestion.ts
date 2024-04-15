@@ -20,6 +20,7 @@ export const listQuestion = [
                 value: 'D. 8 ngày nếu làm đủ cả năm',
             },
         ],
+        answer: 0,
     },
     {
         id: 1,
@@ -42,6 +43,7 @@ export const listQuestion = [
                 value: 'D. 8 ngày nếu làm đủ cả năm',
             },
         ],
+        answer: 0,
     },
     {
         id: 2,
@@ -64,6 +66,7 @@ export const listQuestion = [
                 value: 'D. 8 ngày nếu làm đủ cả năm',
             },
         ],
+        answer: 0,
     },
     {
         id: 3,
@@ -86,6 +89,7 @@ export const listQuestion = [
                 value: 'D. 8 ngày nếu làm đủ cả năm',
             },
         ],
+        answer: 0,
     },
     {
         id: 4,
@@ -108,5 +112,16 @@ export const listQuestion = [
                 value: 'D. 8 ngày nếu làm đủ cả năm',
             },
         ],
+        answer: 0,
     },
 ];
+
+export type ListQuestionType = {
+    id: number;
+    question: string;
+    listAnswer: {
+        id: number;
+        value: string;
+    }[];
+    answer: number;
+}[];

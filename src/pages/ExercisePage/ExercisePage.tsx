@@ -13,11 +13,12 @@ import useGetTime from 'src/hooks/useGetTime';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import path from 'src/constants/path';
+
 const cx = classNames.bind(styles);
 const ExercisePage = () => {
     const negative = useNavigate();
-    const { numQuestionNow, setNumQuestionNow } = useGetInfoExercise();
-    const { timeRemaining, totalSeconds } = useGetTime(0, 0, 10);
+    const { numQuestionNow, setNumQuestionNow, activeExercise } = useGetInfoExercise();
+    const { timeRemaining, totalSeconds } = useGetTime(0, activeExercise.time, 0);
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalSeconds);
     const handlePrevExercise = () => {
         setNumQuestionNow(numQuestionNow - 1);
@@ -33,11 +34,11 @@ const ExercisePage = () => {
         setTotalTimeRemaining(newTotalTimeRemainingTime);
     }, [timeRemaining]);
 
-    // useEffect(() => {
-    //     if (totalTimeRemaining === 0) {
-    //         negative(path.resultPage);
-    //     }
-    // }, [totalTimeRemaining]);
+    useEffect(() => {
+        if (totalTimeRemaining === 0) {
+            negative(path.resultPage);
+        }
+    }, [totalTimeRemaining]);
 
     return (
         <div className={cx('wrapper')}>
@@ -50,7 +51,7 @@ const ExercisePage = () => {
             <Row>
                 <Col span={24} xl={18} className={cx('wrapper-main')}>
                     <div className={cx('wrapper-main-info')}>
-                        <h5 className={cx('wrapper-main-info-name')}>Kiểm tra an toàn bảo mật thông tin lần 2</h5>
+                        <h5 className={cx('wrapper-main-info-name')}>{activeExercise.name}</h5>
                         <div
                             className={cx('wrapper-main-info-time')}
                         >{`Còn lại: ${timeRemaining.hours} giờ ${timeRemaining.minutes} phút ${timeRemaining.seconds} giây`}</div>
@@ -63,7 +64,7 @@ const ExercisePage = () => {
                     </div>
                     <div className={cx('wrapper-main-container')}>
                         <div className={cx('ask-container')}>
-                            {listQuestion.map((question, index) => {
+                            {activeExercise.listQuestion.map((question, index) => {
                                 if (question.id === numQuestionNow) {
                                     return (
                                         <div key={question.id}>

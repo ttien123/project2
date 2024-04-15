@@ -8,13 +8,9 @@ import { listQuestion } from 'src/mock/listQuestion';
 const cx = classNames.bind(styles);
 
 const ListExercise = () => {
-    const { numQuestionNow, setNumQuestionNow, listAnswer, reset } = useGetInfoExercise();
+    const { numQuestionNow, setNumQuestionNow, listAnswer } = useGetInfoExercise();
     const handleClick = (value: number) => {
         setNumQuestionNow(value);
-    };
-    const handleSubmit = () => {
-        console.log(listAnswer);
-        reset();
     };
 
     return (
@@ -30,7 +26,7 @@ const ListExercise = () => {
                     />
                 ))}
             </div>
-            <Link to={path.resultPage} onClick={handleSubmit} className={cx('btn-submit')}>
+            <Link to={path.resultPage} className={cx('btn-submit')}>
                 Nộp Bài
             </Link>
         </div>

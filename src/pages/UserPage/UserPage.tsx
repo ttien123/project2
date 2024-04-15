@@ -18,16 +18,19 @@ import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './UserPage.module.scss';
 import SelectDifficult from 'src/components/SelectDifficult';
+import useGetInfoExercise from 'src/zustand/exercise.ztd';
+import { ListQuestionType } from 'src/mock/listQuestion';
 const cx = classNames.bind(styles);
 const UserPage = () => {
     const [numberPage, setNumberPage] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(6);
-    const [listExercise, setListExercise] = useState<Exercise>(listExe);
+    const [listExercise, setListExercise] = useState<Exercise[]>(listExe);
     const { valueSearch, valueDiff } = useGetValueSearch();
-    // const listExercise = listExe.filter((e) =>
-    //     e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
-    // );
-    console.log(listExercise);
+    const { setActiveExercise } = useGetInfoExercise();
+
+    const handleClickExercise = (istQuestion: Exercise) => {
+        setActiveExercise(istQuestion);
+    };
 
     useEffect(() => {
         if (valueDiff === 0) {
@@ -72,7 +75,12 @@ const UserPage = () => {
                             {listExercise.map((item, index) => {
                                 if (index >= pageSize * numberPage && index < pageSize * numberPage + pageSize) {
                                     return (
-                                        <Link to={path.exercisePage} key={item.id} className={cx('exe-item')}>
+                                        <Link
+                                            onClick={() => handleClickExercise(item)}
+                                            to={path.exercisePage}
+                                            key={item.id}
+                                            className={cx('exe-item')}
+                                        >
                                             <div className={cx('exe-item-name')}>{item.name}</div>
                                             <div className={cx('exe-item-des')}>
                                                 <div className={cx('exe-item-des-time')}>

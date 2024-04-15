@@ -6,15 +6,18 @@ import { Button } from 'antd';
 import useGetIsAuthenticated from 'src/zustand/auth.ztd';
 import { setIsAuthenticatedToLS } from 'src/utils/auth';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
+import useGetValueSearch from 'src/zustand/searchValue.ztd';
 const cx = classNames.bind(styles);
 const UserInfo = () => {
     const { setIsAuthenticated } = useGetIsAuthenticated();
     const { reset } = useGetInfoExercise();
+    const { reset: resetSearch } = useGetValueSearch();
 
     const handleLogout = () => {
         setIsAuthenticated(false);
         setIsAuthenticatedToLS(false);
         reset();
+        resetSearch();
     };
     return (
         <div className={cx('wrapper')}>

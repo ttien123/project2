@@ -2,48 +2,78 @@ import classNames from 'classnames/bind';
 import styles from './ResultPage.module.scss';
 import { Link } from 'react-router-dom';
 import path from 'src/constants/path';
+import useGetInfoExercise from 'src/zustand/exercise.ztd';
 const cx = classNames.bind(styles);
 const ResultPage = () => {
-    const listResult = [
-        {
-            id: 0,
-            description: 'Số câu trả lời đúng:',
-            value: 12,
-        },
-        {
-            id: 1,
-            description: 'Số câu trả lời sai:',
-            value: 3,
-        },
-        {
-            id: 2,
-            description: 'Số câu chưa trả lời đúng:',
-            value: 1,
-        },
-        {
-            id: 3,
-            description: 'Tổng số câu hỏi:',
-            value: 16,
-        },
-    ];
+    const { activeExercise, listAnswer, reset } = useGetInfoExercise();
+    const totalCorrectAnswer = activeExercise.listQuestion.reduce((total, item) => {
+        let totalInner: number = 0;
+        listAnswer.forEach((itemAnswer) => {
+            if (itemAnswer.idQuestion === item.id && itemAnswer.answer.id === item.answer) {
+                return (totalInner += 1);
+            }
+        });
+        return (total += totalInner);
+    }, 0);
+
+    const totalNoChoose = activeExercise.listQuestion.length - listAnswer.length;
+
+    const totalIncorrectAnswer = activeExercise.listQuestion.reduce((total, item) => {
+        let totalInner: number = 0;
+        listAnswer.forEach((itemAnswer) => {
+            if (itemAnswer.idQuestion === item.id && itemAnswer.answer.id != item.answer) {
+                return (totalInner += 1);
+            }
+        });
+        return (total += totalInner);
+    }, 0);
+
+    const handleExit = () => {
+        reset();
+    };
+
+    console.log(totalCorrectAnswer);
 
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-container')}>
-                <h4 className={cx('wrapper-container-name')}>Kiểm tra an toàn bảo mật thông tin lần 2</h4>
+                <h4 className={cx('wrapper-container-name')}>{activeExercise.name}</h4>
                 <div className={cx('wrapper-container-result')}>
                     <div className={cx('wrapper-container-result-answer')}>
-                        {listResult.map((item) => (
+                        {/* {listResult.map((item) => (
                             <div key={item.id} className={cx('result-answer-item')}>
                                 <div className={cx('result-answer-item-des')}>{item.description}</div>
                                 <div className={cx('result-answer-item-value')}>{item.value}</div>
                             </div>
-                        ))}
+                        ))} */}
+                        <div className={cx('result-answer-item')}>
+                            <div className={cx('result-answer-item-des')}>Số câu trả lời đúng:</div>
+                            <div className={cx('result-answer-item-value')}>{totalCorrectAnswer}</div>
+                        </div>
+                        <div className={cx('result-answer-item')}>
+                            <div className={cx('result-answer-item-des')}>Số câu chưa trả lời đúng:</div>
+                            <div className={cx('result-answer-item-value')}>{totalIncorrectAnswer}</div>
+                        </div>
+                        <div className={cx('result-answer-item')}>
+                            <div className={cx('result-answer-item-des')}>Số câu chưa trả lời:</div>
+                            <div className={cx('result-answer-item-value')}>{totalNoChoose}</div>
+                        </div>
+                        <div className={cx('result-answer-item')}>
+                            <div className={cx('result-answer-item-des')}>Tổng số câu hỏi:</div>
+                            <div className={cx('result-answer-item-value')}>{activeExercise.listQuestion.length}</div>
+                        </div>
                     </div>
-                    <div className={cx('wrapper-container-result-goal')}>Điểm số: 120/160</div>
+                    <div className={cx('wrapper-container-result-goal')}>{`Điểm số: ${totalCorrectAnswer * 10}/${
+                        activeExercise.listQuestion.length * 10
+                    }`}</div>
                 </div>
                 <div className={cx('box-btn')}>
-                    <Link to={path.userPage} style={{ margin: 'auto' }} className={cx('btn-submit')}>
+                    <Link
+                        to={path.userPage}
+                        onClick={handleExit}
+                        style={{ margin: 'auto' }}
+                        className={cx('btn-submit')}
+                    >
                         Dashboard
                     </Link>
                 </div>

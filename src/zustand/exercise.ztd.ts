@@ -1,3 +1,4 @@
+import { Exercise } from 'src/mock/listExe';
 import { create } from 'zustand';
 
 export type ListAnswerType = {
@@ -10,23 +11,27 @@ export type ListAnswerType = {
 
 type State = {
     numQuestionNow: number;
+    activeExercise: Exercise;
     listAnswer: ListAnswerType[];
 };
 
 type Actions = {
     setNumQuestionNow: (body: number) => void;
     setListAnswer: (body: ListAnswerType) => void;
+    setActiveExercise: (body: Exercise) => void;
     reset: () => void;
 };
 
 const initialState: State = {
     numQuestionNow: 0,
+    activeExercise: { id: 0, difficult: 0, goal: '', listQuestion: [], name: '', time: 0 },
     listAnswer: [],
 };
 
 const useGetInfoExercise = create<State & Actions>()((set) => ({
     ...initialState,
     setNumQuestionNow: (body) => set((state) => ({ numQuestionNow: (state.numQuestionNow = body) })),
+    setActiveExercise: (body) => set((state) => ({ activeExercise: (state.activeExercise = body) })),
     setListAnswer: (body) =>
         set((state) => {
             const { idQuestion, answer } = body;
@@ -35,7 +40,6 @@ const useGetInfoExercise = create<State & Actions>()((set) => ({
             if (existingAnswer) {
                 existingAnswer.answer = answer;
             } else {
-                // state.listAnswer.push(body);
                 const newListAnswer = state.listAnswer;
                 return { listAnswer: [...newListAnswer, body] };
             }
