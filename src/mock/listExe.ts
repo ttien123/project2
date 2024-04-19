@@ -7,6 +7,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 1,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -15,6 +16,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 2,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -23,6 +25,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 3,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -31,6 +34,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 4,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -39,6 +43,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 5,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -47,6 +52,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 1,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -55,6 +61,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 3,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -63,6 +70,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 4,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -71,6 +79,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 2,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -79,6 +88,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 5,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -87,6 +97,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 5,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -95,6 +106,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 5,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -103,6 +115,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 1,
+        start: 1,
         listQuestion: listQuestion,
     },
     {
@@ -111,6 +124,7 @@ export const listExe = [
         time: 7,
         goal: '200/250',
         difficult: 5,
+        start: 1,
         listQuestion: listQuestion,
     },
 ];
@@ -121,5 +135,6 @@ export type Exercise = {
     time: number;
     goal: string;
     difficult: number;
+    start: number;
     listQuestion: ListQuestionType;
 };

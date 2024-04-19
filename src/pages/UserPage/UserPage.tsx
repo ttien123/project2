@@ -20,6 +20,7 @@ import styles from './UserPage.module.scss';
 import SelectDifficult from 'src/components/SelectDifficult';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import { ListQuestionType } from 'src/mock/listQuestion';
+import MenuTop from 'src/components/MenuTop';
 const cx = classNames.bind(styles);
 const UserPage = () => {
     const [numberPage, setNumberPage] = useState<number>(0);
@@ -49,13 +50,8 @@ const UserPage = () => {
     }, [valueSearch, valueDiff]);
     return (
         <div className={cx('wrapper')}>
-            <div className={cx('wrapper-menu')}>
-                <div className={cx('wrapper-menu-icon')}>
-                    <DrawerCst element={<UserInfo />} />
-                </div>
-                <div className={cx('wrapper-menu-name')}>Dashboard</div>
-            </div>
-            <Row style={{ flex: 1 }}>
+            <MenuTop element={<UserInfo />} title={'Dashboard'} />
+            <Row style={{ flex: '1' }}>
                 <Col span={0} xl={6} className={cx('info')}>
                     <UserInfo />
                 </Col>
@@ -71,16 +67,16 @@ const UserPage = () => {
                     </div>
 
                     <div className={cx('main-exe')}>
-                        <div className={cx('main-exe-container')}>
-                            {listExercise.map((item, index) => {
-                                if (index >= pageSize * numberPage && index < pageSize * numberPage + pageSize) {
-                                    return (
-                                        <Link
-                                            onClick={() => handleClickExercise(item)}
-                                            to={path.exercisePage}
-                                            key={item.id}
-                                            className={cx('exe-item')}
-                                        >
+                        {listExercise.map((item, index) => {
+                            if (index >= pageSize * numberPage && index < pageSize * numberPage + pageSize) {
+                                return (
+                                    <Link
+                                        onClick={() => handleClickExercise(item)}
+                                        to={path.exercisePage}
+                                        key={item.id}
+                                        className={cx('exe-item')}
+                                    >
+                                        <div>
                                             <div className={cx('exe-item-name')}>{item.name}</div>
                                             <div className={cx('exe-item-des')}>
                                                 <div className={cx('exe-item-des-time')}>
@@ -104,25 +100,25 @@ const UserPage = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className={cx('exe-item-star')}>
-                                                {Array(5)
-                                                    .fill(0)
-                                                    .map((_, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className={cx('exe-item-star-icon', {
-                                                                'exe-item-star-fill': index < item.difficult,
-                                                            })}
-                                                        >
-                                                            <IconStar />
-                                                        </div>
-                                                    ))}
-                                            </div>
-                                        </Link>
-                                    );
-                                }
-                            })}
-                        </div>
+                                        </div>
+                                        <div className={cx('exe-item-star')}>
+                                            {Array(5)
+                                                .fill(0)
+                                                .map((_, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className={cx('exe-item-star-icon', {
+                                                            'exe-item-star-fill': index < item.difficult,
+                                                        })}
+                                                    >
+                                                        <IconStar />
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    </Link>
+                                );
+                            }
+                        })}
                     </div>
                     <div style={{ marginTop: '16px', textAlign: 'center' }}>
                         <PaginationCst

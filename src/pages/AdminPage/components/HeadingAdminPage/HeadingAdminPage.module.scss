@@ -1,0 +1,28 @@
+@import '../../../../components/GlobalStyles/media-query';
+
+.wrapper {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    @include ultra_tablet_max {
+        height: calc(100vh - 65px);
+    }
+    &-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: 20px 40px;
+        height: 100%;
+        @include ultra_tablet_max {
+            padding: 20px;
+        }
+        &-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-top: 0;
+            @include ultra_tablet_max {
+                display: none;
+            }
+        }
+    }
+}

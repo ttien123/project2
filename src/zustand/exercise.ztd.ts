@@ -24,7 +24,7 @@ type Actions = {
 
 const initialState: State = {
     numQuestionNow: 0,
-    activeExercise: { id: 0, difficult: 0, goal: '', listQuestion: [], name: '', time: 0 },
+    activeExercise: { id: 0, difficult: 0, goal: '', listQuestion: [], name: '', time: 0, start: 0 },
     listAnswer: [],
 };
 

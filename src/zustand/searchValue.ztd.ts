@@ -1,12 +1,5 @@
 import { create } from 'zustand';
 
-interface ValueSearchInterface {
-    valueSearch: string;
-    valueDiff: number;
-    setValueSearch: (body: string) => void;
-    setValueDiff: (body: number) => void;
-}
-
 type State = {
     valueSearch: string;
     valueDiff: number;

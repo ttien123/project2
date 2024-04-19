@@ -1,8 +1,15 @@
+@import '../../components/GlobalStyles/media-query';
+
 .wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
+    background: var(--bg-primary, #d9d9d9);
+    padding: 40px;
+    @include ultra_tablet_max {
+        padding: 40px 20px;
+    }
     .info {
         &-box-avatar {
             display: flex;

@@ -20,6 +20,8 @@ const ExercisePage = () => {
     const { numQuestionNow, setNumQuestionNow, activeExercise } = useGetInfoExercise();
     const { timeRemaining, totalSeconds } = useGetTime(0, activeExercise.time, 0);
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalSeconds);
+    const [openModal, setOpenModal] = useState(false);
+
     const handlePrevExercise = () => {
         setNumQuestionNow(numQuestionNow - 1);
     };
@@ -104,6 +106,8 @@ const ExercisePage = () => {
                                 <ModalCst
                                     ButtonOpen={<div className={cx('box-btn-open-ListExe-item')}>Chuyển đến</div>}
                                     Content={<ListExercise />}
+                                    open={openModal}
+                                    setOpen={setOpenModal}
                                 />
                             </div>
                         </div>

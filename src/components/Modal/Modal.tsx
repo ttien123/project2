@@ -2,13 +2,13 @@ import { Button, Modal } from 'antd';
 import React, { useState } from 'react';
 
 interface Props {
-    ButtonOpen: React.ReactNode;
+    ButtonOpen?: React.ReactNode;
     Content: React.ReactNode;
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalCst = ({ ButtonOpen, Content }: Props) => {
-    const [open, setOpen] = useState(false);
-
+const ModalCst = ({ ButtonOpen, Content, open, setOpen }: Props) => {
     const showModal = () => {
         setOpen(true);
     };
@@ -16,12 +16,15 @@ const ModalCst = ({ ButtonOpen, Content }: Props) => {
     const hideModal = () => {
         setOpen(false);
     };
+
     return (
         <>
-            <button type="button" onClick={showModal}>
-                {ButtonOpen}
-            </button>
-            <Modal open={open} centered onCancel={hideModal} footer={[]} closeIcon={false}>
+            {ButtonOpen && (
+                <button type="button" onClick={showModal}>
+                    {ButtonOpen}
+                </button>
+            )}
+            <Modal destroyOnClose open={open} centered onCancel={hideModal} footer={null} closeIcon={false}>
                 {Content}
             </Modal>
         </>

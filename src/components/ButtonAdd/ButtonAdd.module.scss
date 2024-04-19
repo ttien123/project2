@@ -1,0 +1,36 @@
+@import '../../components//GlobalStyles/media-query';
+.wrapper {
+    background: transparent;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    width: 100%;
+    border: 1px solid #000000;
+    border-radius: 4px;
+    width: 100%;
+    @include ultra_tablet_max {
+        border: none;
+        padding: 0;
+        justify-content: center;
+    }
+    &-icon {
+        margin-right: 32px;
+        margin-left: 16px;
+        @include ultra_tablet_max {
+            margin: 0;
+        }
+    }
+    &-content {
+        font-size: 22px;
+        font-weight: 400;
+        @include ultra_tablet_max {
+            display: none !important;
+        }
+    }
+}
+
+.isNormal {
+    background: #ffffff;
+    border: none;
+}

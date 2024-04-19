@@ -1,0 +1,28 @@
+@import '../../components//GlobalStyles/media-query';
+
+.wrapper-menu {
+    display: none;
+    @include ultra_tablet_max {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 65px;
+        padding: 20px;
+        background: var(--bg-bold-primary);
+    }
+    &-icon {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+    }
+    &-name {
+        flex: 1;
+        height: 100%;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+        color: white;
+    }
+}

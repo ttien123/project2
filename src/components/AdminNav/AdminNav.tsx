@@ -22,11 +22,11 @@ const AdminNav = () => {
                         <IconUserAdmin />
                         <div className={cx('nav-item-name')}>User Manager</div>
                     </NavLink>
-                    <NavLink to={path.testQuiz} className={(nav) => cx('nav-item', { activeNav: nav.isActive })}>
+                    <NavLink to={path.testManager} className={(nav) => cx('nav-item', { activeNav: nav.isActive })}>
                         <IconQuestion />
                         <div className={cx('nav-item-name')}>Test Manager</div>
                     </NavLink>
-                    <NavLink to={''} className={(nav) => cx('nav-item', { activeNav: nav.isActive })}>
+                    <NavLink to={path.testQuiz} className={(nav) => cx('nav-item', { activeNav: nav.isActive })}>
                         <IconUserGraduate />
                         <div className={cx('nav-item-name')}>Test Quiz</div>
                     </NavLink>

@@ -6,8 +6,9 @@ import ExercisePage from './pages/ExercisePage';
 import ResultPage from './pages/ResultPage';
 import AdminLayout from './layouts/AdminLayout';
 import AdminPage from './pages/AdminPage';
-import TestQuizPage from './pages/TestQuizPage';
 import useGetIsAuthentication from './zustand/auth.ztd';
+import TestQuizPage from './pages/AdminPage/pages/TestQuizPage';
+import TestManagerPage from './pages/AdminPage/pages/TestManagerPage';
 
 function ProtectedRoute() {
     const { isAuthenticated } = useGetIsAuthentication();
@@ -54,6 +55,10 @@ const useRouterElements = () => {
                         {
                             path: path.testQuiz,
                             element: <TestQuizPage />,
+                        },
+                        {
+                            path: path.testManager,
+                            element: <TestManagerPage />,
                         },
                     ],
                 },

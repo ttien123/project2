@@ -1,0 +1,60 @@
+@import '../../../../components/GlobalStyles/media-query';
+
+.wrapper {
+    display: block;
+    margin: 0;
+
+    @include ultra_tablet_max {
+        background: #d9d9d9;
+        padding: 16px 12px;
+        overflow: auto;
+    }
+    &-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        background: #d9d9d9;
+        border: 1px solid #000000;
+        margin-bottom: 20px;
+        &:last-child {
+            margin-bottom: 0px;
+        }
+
+        @include ultra_tablet_max {
+            &:last-child {
+                margin-bottom: 0px;
+            }
+        }
+
+        &-des {
+            &-email {
+                display: block;
+                font-size: 12px;
+            }
+            &-name {
+                display: block;
+                font-size: 12px;
+            }
+        }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            @include ultra_tablet_max {
+                gap: 16px;
+            }
+            &-pen {
+                display: block;
+                width: 25px;
+                height: 25px;
+            }
+            &-plus {
+                display: block;
+                width: 25px;
+                height: 25px;
+            }
+        }
+    }
+}

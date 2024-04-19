@@ -1,0 +1,31 @@
+.wrapper {
+    &-box {
+        margin: 16px 0;
+        &-item {
+            font-size: 16px;
+        }
+    }
+    &-box-repair {
+        margin-top: 4px;
+        font-size: 16px;
+        &-des {
+            display: block;
+        }
+        &-input {
+            display: block;
+            width: 100%;
+            padding: 4px 16px;
+        }
+    }
+
+    .error {
+        min-height: 4px;
+        color: red;
+        margin-top: 4px;
+    }
+
+    .box-button {
+        text-align: right;
+        margin-top: 4px;
+    }
+}
