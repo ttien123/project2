@@ -4,6 +4,7 @@ import { create } from 'zustand';
 
 export type ListAnswerType = {
     idGroup: number;
+    indexInGr: number;
     idQuestion: number;
     answer: number;
 };
@@ -11,6 +12,7 @@ export type ListAnswerType = {
 type State = {
     numQuestionNow: number;
     activeExercise: Exercise;
+    activeExerciseAdmin: Exercise | undefined;
     listAnswer: ListAnswerType[];
     listExercise: Exercise[];
 };
@@ -19,6 +21,7 @@ type Actions = {
     setNumQuestionNow: (body: number) => void;
     setListAnswer: (body: ListAnswerType) => void;
     setActiveExercise: (body: Exercise) => void;
+    setActiveExerciseAdmin: (body: Exercise | undefined) => void;
     setListExercise: (body: Exercise[]) => void;
     reset: () => void;
 };
@@ -36,6 +39,7 @@ const initialState: State = {
         start: 0,
         reverseQuestion: false,
     },
+    activeExerciseAdmin: undefined,
     listAnswer: [],
 };
 
@@ -43,6 +47,7 @@ const useGetInfoExercise = create<State & Actions>()((set) => ({
     ...initialState,
     setNumQuestionNow: (body) => set((state) => ({ numQuestionNow: (state.numQuestionNow = body) })),
     setActiveExercise: (body) => set((state) => ({ activeExercise: (state.activeExercise = body) })),
+    setActiveExerciseAdmin: (body) => set((state) => ({ activeExerciseAdmin: (state.activeExerciseAdmin = body) })),
     setListExercise: (body) =>
         set((state) => {
             setListExerciseToLS(body);

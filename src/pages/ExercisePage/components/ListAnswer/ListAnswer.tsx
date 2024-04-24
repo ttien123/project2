@@ -14,14 +14,17 @@ interface Props {
     numberQuestion: number;
     idQuestion: number;
     idGroup: number;
+    indexInGr: number;
 }
 
-const ListAnswer = ({ listAnswer, numberQuestion, idGroup, idQuestion }: Props) => {
+const ListAnswer = ({ listAnswer, numberQuestion, idGroup, idQuestion, indexInGr }: Props) => {
     const { listAnswer: listAnswerAll, setListAnswer } = useGetInfoExercise();
     const [value, setValue] = useState<number | undefined>(undefined);
+
     const onChange = (e: RadioChangeEvent) => {
         setValue(e.target.value);
         const newAnswer = {
+            indexInGr,
             idGroup,
             idQuestion,
             answer: e.target.value,

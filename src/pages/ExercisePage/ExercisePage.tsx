@@ -6,7 +6,6 @@ import ModalCst from 'src/components/Modal';
 
 import classNames from 'classnames/bind';
 import styles from './ExercisePage.module.scss';
-import { listQuestion } from 'src/mock/listQuestion';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import ListAnswer from './components/ListAnswer';
 import useGetTime from 'src/hooks/useGetTime';
@@ -97,6 +96,7 @@ const ExercisePage = () => {
                                             </h3>
                                             <div className={cx('ask-container-answer')}>
                                                 <ListAnswer
+                                                    indexInGr={randomArray[index]}
                                                     numberQuestion={numQuestionNow}
                                                     listAnswer={question.listAnswer}
                                                     idGroup={question.idGroup}
@@ -115,6 +115,7 @@ const ExercisePage = () => {
                                             </h3>
                                             <div className={cx('ask-container-answer')}>
                                                 <ListAnswer
+                                                    indexInGr={index}
                                                     numberQuestion={numQuestionNow}
                                                     listAnswer={question.listAnswer}
                                                     idGroup={question.idGroup}

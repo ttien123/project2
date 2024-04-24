@@ -28,7 +28,7 @@ type FormExerciseSchema = Pick<ExerciseSchema, 'testName' | 'time' | 'difficult'
 const createExerciseSchema = exerciseSchema.pick(['testName', 'time', 'difficult']);
 
 const CreateTest = () => {
-    const { listExercise, setListExercise } = useGetInfoExercise();
+    const { listExercise, setListExercise, activeExerciseAdmin } = useGetInfoExercise();
     const [numberPageGrQuestion, setNumberPageGrQuestion] = useState<number>(0);
     const [numberPageListQsCh, setNumberPageListQsCh] = useState<number>(0);
     const [isSubmitNoQs, setIsSubmitNoQs] = useState<boolean>(false);
@@ -59,7 +59,7 @@ const CreateTest = () => {
     });
 
     const onSubmit = handleSubmit((data) => {
-        if (listQuestionChoice.length >= 5) {
+        if (listQuestionChoice.length >= 5 && !activeExerciseAdmin) {
             const newObj: Exercise = {
                 id: uuidv4(),
                 name: data.testName,
@@ -71,8 +71,39 @@ const CreateTest = () => {
                 reverseQuestion: isReverseQuestion,
             };
             const newListExercise = [...listExercise, newObj];
-            setListExercise(newListExercise);
             toast.success('Tạo bài test thành công');
+            setListExercise(newListExercise);
+            setIsSubmitNoQs(false);
+            setNumberPageGrQuestion(0);
+            setNumberPageListQsCh(0);
+            setIsReverseQuestion(false);
+            setSelectDiff(undefined);
+            setSelectGroupExercise(undefined);
+            setGroupQuestionChoice(undefined);
+            setListQuestionChoice([]);
+            reset();
+        }
+
+        if (listQuestionChoice.length >= 5 && activeExerciseAdmin) {
+            const newListExercise = listExercise.map((item) => {
+                if (item.id === activeExerciseAdmin.id) {
+                    return {
+                        id: item.id,
+                        name: data.testName,
+                        time: Number(data.time),
+                        difficult: Number(data.difficult),
+                        goal: '200/250',
+                        start: 1,
+                        listQuestion: listQuestionChoice,
+                        reverseQuestion: isReverseQuestion,
+                    };
+                } else {
+                    return item;
+                }
+            });
+
+            toast.success('Tạo bài test thành công');
+            setListExercise(newListExercise);
             setIsSubmitNoQs(false);
             setNumberPageGrQuestion(0);
             setNumberPageListQsCh(0);
@@ -117,6 +148,17 @@ const CreateTest = () => {
     };
 
     useEffect(() => {
+        if (activeExerciseAdmin) {
+            setValue('testName', activeExerciseAdmin.name);
+            setValue('difficult', activeExerciseAdmin.difficult.toString());
+            setValue('time', activeExerciseAdmin.time.toString());
+            setSelectDiff(activeExerciseAdmin.difficult);
+            setIsReverseQuestion(activeExerciseAdmin.reverseQuestion);
+            setListQuestionChoice(activeExerciseAdmin.listQuestion);
+        }
+    }, [activeExerciseAdmin]);
+
+    useEffect(() => {
         if (selectGroupExercise || selectGroupExercise === 0) {
             const newArr = listGroupQuestion.find((item) => item.id === selectGroupExercise);
             setGroupQuestionChoice(newArr);
@@ -126,6 +168,7 @@ const CreateTest = () => {
     useEffect(() => {
         selectDiff && setValue('difficult', selectDiff?.toString());
     }, [selectDiff]);
+
     return (
         <>
             <MenuTop element={<AdminNav />} title={'Test Manager'} />

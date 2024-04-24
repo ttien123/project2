@@ -24,7 +24,6 @@ import ModalCst from 'src/components/Modal';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import { toast } from 'react-toastify';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
-import { getListExerciseFromLS } from 'src/utils/exercise';
 
 interface PropsListPageSize {
     setPageSize: React.Dispatch<React.SetStateAction<number>>;
@@ -67,7 +66,7 @@ const ListPageSize = ({ setPageSize, setOpenPopover }: PropsListPageSize) => {
 
 const TestManagerPage = () => {
     const negative = useNavigate();
-    const { listExercise, setListExercise } = useGetInfoExercise();
+    const { listExercise, setListExercise, setActiveExerciseAdmin } = useGetInfoExercise();
     const [listExeNow, setListExeNow] = useState<Exercise[]>(listExercise);
     const [pageSize, setPageSize] = useState<number>(6);
     const [currentPage, setCurrentPage] = useState(1);
@@ -135,7 +134,7 @@ const TestManagerPage = () => {
             width: '20%',
             render: (value, record: Exercise) => (
                 <Space size="middle" style={{ width: '100%', columnGap: 32 }}>
-                    <Link to={path.createTest}>
+                    <Link to={path.createTest} onClick={() => setActiveExerciseAdmin(record)}>
                         <img src={iconPen} alt="icon" style={{ width: 20, height: 20 }} />
                     </Link>
                     <button
@@ -205,7 +204,10 @@ const TestManagerPage = () => {
                     </div>
                     <div className={cx('wrapper-search-add')}>
                         <ButtonAdd
-                            handleClick={() => negative(path.createTest)}
+                            handleClick={() => {
+                                setActiveExerciseAdmin(undefined);
+                                negative(path.createTest);
+                            }}
                             srcIcon={iconPlus}
                             content="New test"
                             isNormal

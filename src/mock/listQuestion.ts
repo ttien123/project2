@@ -125,6 +125,17 @@ export const listQuestion = [
     },
 ];
 
+export type ListTypeObjQuestion = {
+    idGroup: number;
+    id: number;
+    question: string;
+    listAnswer: {
+        id: number;
+        value: string;
+    }[];
+    answer: number;
+};
+
 export type ListQuestionType = {
     idGroup: number;
     id: number;

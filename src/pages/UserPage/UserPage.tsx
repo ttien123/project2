@@ -34,7 +34,6 @@ const UserPage = () => {
     const handleClickExercise = (istQuestion: Exercise) => {
         setActiveExercise(istQuestion);
     };
-    console.log(numberPage);
 
     useEffect(() => {
         if (valueDiff === 0) {

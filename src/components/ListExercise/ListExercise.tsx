@@ -8,7 +8,6 @@ const cx = classNames.bind(styles);
 
 const ListExercise = () => {
     const { numQuestionNow, setNumQuestionNow, listAnswer, activeExercise } = useGetInfoExercise();
-
     const handleClick = (value: number) => {
         setNumQuestionNow(value);
     };
@@ -16,19 +15,17 @@ const ListExercise = () => {
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-list')}>
-                {activeExercise.listQuestion.map((item, index) => (
-                    <ButtonExercise
-                        onClick={() => handleClick(index)}
-                        key={index}
-                        value={index + 1}
-                        isChoosing={numQuestionNow === index}
-                        isFinish={Boolean(
-                            listAnswer.find(
-                                (answer) => answer.idQuestion === item.id && answer.idGroup === item.idGroup,
-                            ),
-                        )}
-                    />
-                ))}
+                {activeExercise.listQuestion.map((_, index) => {
+                    return (
+                        <ButtonExercise
+                            onClick={() => handleClick(index)}
+                            key={index}
+                            value={index + 1}
+                            isChoosing={numQuestionNow === index}
+                            isFinish={Boolean(listAnswer.find((itemF) => itemF.indexInGr === index))}
+                        />
+                    );
+                })}
             </div>
             <Link to={path.resultPage} className={cx('btn-submit')}>
                 Nộp Bài
