@@ -17,6 +17,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     register?: UseFormRegister<any>;
     rules?: RegisterOptions;
     isSmall?: boolean;
+    isFull?: boolean;
 }
 
 const Input = ({
@@ -32,11 +33,12 @@ const Input = ({
     placeholder,
     autoComplete,
     isSmall,
+    isFull,
     ...rest
 }: Props) => {
     const registerResult = register && name ? register(name, rules) : null;
     return (
-        <div className={cx('container')}>
+        <div className={cx({ container: isFull })}>
             <div
                 className={cx('wrapper', {
                     isSmall: isSmall,

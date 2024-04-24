@@ -9,7 +9,11 @@ const ResultPage = () => {
     const totalCorrectAnswer = activeExercise.listQuestion.reduce((total, item) => {
         let totalInner: number = 0;
         listAnswer.forEach((itemAnswer) => {
-            if (itemAnswer.idQuestion === item.id && itemAnswer.answer.id === item.answer) {
+            if (
+                itemAnswer.idQuestion === item.id &&
+                itemAnswer.idGroup === item.idGroup &&
+                itemAnswer.answer === item.answer
+            ) {
                 return (totalInner += 1);
             }
         });
@@ -21,7 +25,11 @@ const ResultPage = () => {
     const totalIncorrectAnswer = activeExercise.listQuestion.reduce((total, item) => {
         let totalInner: number = 0;
         listAnswer.forEach((itemAnswer) => {
-            if (itemAnswer.idQuestion === item.id && itemAnswer.answer.id != item.answer) {
+            if (
+                itemAnswer.idQuestion === item.id &&
+                itemAnswer.idGroup === item.idGroup &&
+                itemAnswer.answer != item.answer
+            ) {
                 return (totalInner += 1);
             }
         });
@@ -32,27 +40,19 @@ const ResultPage = () => {
         reset();
     };
 
-    console.log(totalCorrectAnswer);
-
     return (
         <div className={cx('wrapper')}>
             <div className={cx('wrapper-container')}>
                 <h4 className={cx('wrapper-container-name')}>{activeExercise.name}</h4>
                 <div className={cx('wrapper-container-result')}>
                     <div className={cx('wrapper-container-result-answer')}>
-                        {/* {listResult.map((item) => (
-                            <div key={item.id} className={cx('result-answer-item')}>
-                                <div className={cx('result-answer-item-des')}>{item.description}</div>
-                                <div className={cx('result-answer-item-value')}>{item.value}</div>
-                            </div>
-                        ))} */}
                         <div className={cx('result-answer-item')}>
                             <div className={cx('result-answer-item-des')}>Số câu trả lời đúng:</div>
                             <div className={cx('result-answer-item-value')}>{totalCorrectAnswer}</div>
                         </div>
                         <div className={cx('result-answer-item')}>
                             <div className={cx('result-answer-item-des')}>Số câu chưa trả lời đúng:</div>
-                            <div className={cx('result-answer-item-value')}>{totalIncorrectAnswer}</div>
+                            <div className={cx('result-answer-item-value')}>{totalIncorrectAnswer + totalNoChoose}</div>
                         </div>
                         <div className={cx('result-answer-item')}>
                             <div className={cx('result-answer-item-des')}>Số câu chưa trả lời:</div>

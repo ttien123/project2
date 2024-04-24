@@ -1,5 +1,7 @@
 @import '../../components//GlobalStyles//media-query';
-
+.container {
+    flex: 1;
+}
 .wrapper {
     display: flex;
     align-items: center;

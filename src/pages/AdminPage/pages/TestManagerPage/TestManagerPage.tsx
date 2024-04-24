@@ -15,8 +15,16 @@ import { Exercise, listExe } from 'src/mock/listExe';
 import { useEffect, useState } from 'react';
 import { ColumnsType } from 'antd/es/table';
 import useGetValueSearch from 'src/zustand/searchValue.ztd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import PopoverCst from 'src/components/Popover';
+import path from 'src/constants/path';
+import MenuTop from 'src/components/MenuTop';
+import AdminNav from 'src/components/AdminNav';
+import ModalCst from 'src/components/Modal';
+import ConfirmDelete from '../../components/ConfirmDelete';
+import { toast } from 'react-toastify';
+import useGetInfoExercise from 'src/zustand/exercise.ztd';
+import { getListExerciseFromLS } from 'src/utils/exercise';
 
 interface PropsListPageSize {
     setPageSize: React.Dispatch<React.SetStateAction<number>>;
@@ -58,11 +66,30 @@ const ListPageSize = ({ setPageSize, setOpenPopover }: PropsListPageSize) => {
 };
 
 const TestManagerPage = () => {
+    const negative = useNavigate();
+    const { listExercise, setListExercise } = useGetInfoExercise();
+    const [listExeNow, setListExeNow] = useState<Exercise[]>(listExercise);
     const [pageSize, setPageSize] = useState<number>(6);
     const [currentPage, setCurrentPage] = useState(1);
+    const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+    const [testDelete, setTestDelete] = useState<Exercise | undefined>(undefined);
     const [openPopover, setOpenPopover] = useState<boolean>(false);
-    const [listExerciseNow, setListExerciseNow] = useState<Exercise[]>(listExe);
     const { valueSearch } = useGetValueSearch();
+
+    const handleChange = (page: number) => {
+        setCurrentPage(page);
+    };
+
+    const handleDeleteExercise = (record: Exercise) => {
+        const indexValue = listExercise.findIndex((item) => item.id === record.id);
+        const newList: Exercise[] = [...listExercise];
+        newList.splice(indexValue, 1);
+        setListExercise(newList);
+        setOpenConfirmDelete(false);
+        toast.success('Xóa bài tập thành công', {
+            autoClose: 1500,
+        });
+    };
 
     const columns: ColumnsType<Exercise> = [
         {
@@ -72,7 +99,7 @@ const TestManagerPage = () => {
             key: 'id',
             responsive: ['lg'],
             render: (value, record, index) => {
-                return <div>{index + 1}</div>;
+                return <div>{index + 1 + (currentPage - 1) * pageSize}</div>;
             },
         },
         {
@@ -108,10 +135,15 @@ const TestManagerPage = () => {
             width: '20%',
             render: (value, record: Exercise) => (
                 <Space size="middle" style={{ width: '100%', columnGap: 32 }}>
-                    <Link to={''}>
+                    <Link to={path.createTest}>
                         <img src={iconPen} alt="icon" style={{ width: 20, height: 20 }} />
                     </Link>
-                    <button onClick={() => handleDeleteExercise(record)}>
+                    <button
+                        onClick={() => {
+                            setOpenConfirmDelete(true);
+                            setTestDelete(record);
+                        }}
+                    >
                         <img src={iconBin} alt="icon" style={{ width: 20, height: 20 }} />
                     </button>
                 </Space>
@@ -119,61 +151,95 @@ const TestManagerPage = () => {
         },
     ];
 
-    const handleChange = (page: number) => {
-        setCurrentPage(page);
-    };
-
-    const handleDeleteExercise = (record: Exercise) => {
-        const indexValue = listExerciseNow.findIndex((item) => item.id === record.id);
-        const newList: Exercise[] = [...listExerciseNow];
-        newList.splice(indexValue, 1);
-        setListExerciseNow(newList);
-    };
-
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentPageData = listExerciseNow.slice(startIndex, endIndex);
+    const currentPageData = listExercise.slice(startIndex, endIndex);
 
     useEffect(() => {
-        let newList = listExe.filter((e) =>
+        const remainingItems = listExercise.length;
+        const maxPage = Math.ceil(remainingItems / pageSize);
+        if (currentPage > maxPage && maxPage > 0) {
+            setCurrentPage(maxPage);
+        }
+    }, [listExercise, pageSize]);
+
+    useEffect(() => {
+        let newList = listExercise.filter((e) =>
             e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
         );
-        setListExerciseNow(newList);
+        setListExeNow(newList);
     }, [valueSearch]);
+
+    useEffect(() => {
+        setListExeNow(listExercise);
+    }, [listExercise]);
     return (
-        <HeadingAdminPage title={'Test manager'}>
-            <div className={cx('wrapper-search')}>
-                <div className={cx('wrapper-search-input')}>
-                    <InputSearch />
+        <>
+            <MenuTop element={<AdminNav />} title={'Test Manager'} />
+            <ModalCst
+                Content={
+                    <ConfirmDelete
+                        title="Bạn có chắc chắn muốn xóa bài test này?"
+                        setOpen={setOpenConfirmDelete}
+                        handleDeleteExercise={handleDeleteExercise}
+                        record={testDelete}
+                    />
+                }
+                open={openConfirmDelete}
+                setOpen={setOpenConfirmDelete}
+            />
+            <HeadingAdminPage
+                title={'Test manager'}
+                listLink={
+                    <div>
+                        <Link style={{ color: '#666161', fontWeight: 400 }} to={path.admin}>
+                            Home
+                        </Link>
+                        <span>{' > Test manager'}</span>
+                    </div>
+                }
+            >
+                <div className={cx('wrapper-search')}>
+                    <div className={cx('wrapper-search-input')}>
+                        <InputSearch setNumberPage={setCurrentPage} isTestManager />
+                    </div>
+                    <div className={cx('wrapper-search-add')}>
+                        <ButtonAdd
+                            handleClick={() => negative(path.createTest)}
+                            srcIcon={iconPlus}
+                            content="New test"
+                            isNormal
+                        />
+                    </div>
                 </div>
-                <div className={cx('wrapper-search-add')}>
-                    <ButtonAdd srcIcon={iconPlus} content="New test" isNormal />
+                <div className={cx('table-container')}>
+                    <Table
+                        columns={columns}
+                        pagination={{
+                            position: ['bottomCenter'],
+                            pageSize: pageSize,
+                            onChange: handleChange,
+                            current: currentPage,
+                        }}
+                        rowKey={(record) => record.id}
+                        dataSource={listExeNow}
+                        scroll={{ y: currentPageData.length >= 8 ? 300 : undefined }}
+                    />
+                    {listExeNow.length > 0 && (
+                        <button className={cx('pageSizeTable')}>
+                            <PopoverCst
+                                open={openPopover}
+                                setOpen={setOpenPopover}
+                                content={<ListPageSize setPageSize={setPageSize} setOpenPopover={setOpenPopover} />}
+                            >
+                                <span>{pageSize}</span>
+                                <img src={iconDownSmall} alt="icon" />
+                            </PopoverCst>
+                        </button>
+                    )}
                 </div>
-            </div>
-            <div className={cx('table-container')}>
-                <Table
-                    columns={columns}
-                    pagination={{
-                        position: ['bottomCenter'],
-                        pageSize: pageSize,
-                        onChange: handleChange,
-                    }}
-                    rowKey={(record) => record.id}
-                    dataSource={listExerciseNow}
-                    scroll={{ y: currentPageData.length >= 8 ? 300 : undefined }}
-                />
-                <button className={cx('pageSizeTable')}>
-                    <PopoverCst
-                        open={openPopover}
-                        setOpen={setOpenPopover}
-                        content={<ListPageSize setPageSize={setPageSize} setOpenPopover={setOpenPopover} />}
-                    >
-                        <span>{pageSize}</span>
-                        <img src={iconDownSmall} alt="icon" />
-                    </PopoverCst>
-                </button>
-            </div>
-        </HeadingAdminPage>
+            </HeadingAdminPage>
+        </>
     );
 };
 

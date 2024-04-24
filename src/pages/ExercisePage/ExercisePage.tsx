@@ -20,6 +20,7 @@ const ExercisePage = () => {
     const { numQuestionNow, setNumQuestionNow, activeExercise } = useGetInfoExercise();
     const { timeRemaining, totalSeconds } = useGetTime(0, activeExercise.time, 0);
     const [totalTimeRemaining, setTotalTimeRemaining] = useState(totalSeconds);
+    const [randomArray, setRandomArray] = useState<number[]>([]);
     const [openModal, setOpenModal] = useState(false);
 
     const handlePrevExercise = () => {
@@ -29,6 +30,27 @@ const ExercisePage = () => {
     const handleNextExercise = () => {
         setNumQuestionNow(numQuestionNow + 1);
     };
+
+    useEffect(() => {
+        const generateRandomArray = (n: number): number[] => {
+            const array: number[] = [];
+            for (let i = 0; i < n; i++) {
+                array.push(i);
+            }
+            shuffleArray(array);
+            return array;
+        };
+
+        const shuffleArray = (array: number[]): void => {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        };
+
+        const newArray = generateRandomArray(activeExercise.listQuestion.length);
+        setRandomArray(newArray);
+    }, []);
 
     useEffect(() => {
         const { hours, minutes, seconds } = timeRemaining;
@@ -67,16 +89,36 @@ const ExercisePage = () => {
                     <div className={cx('wrapper-main-container')}>
                         <div className={cx('ask-container')}>
                             {activeExercise.listQuestion.map((question, index) => {
-                                if (question.id === numQuestionNow) {
+                                if (activeExercise.reverseQuestion && randomArray[index] === numQuestionNow) {
                                     return (
-                                        <div key={question.id}>
+                                        <div key={index}>
                                             <h3 className={cx('ask-container-des')}>
-                                                Câu {index + 1}. {question.question}
+                                                Câu {numQuestionNow + 1}. {question.question}
                                             </h3>
                                             <div className={cx('ask-container-answer')}>
                                                 <ListAnswer
-                                                    numberQuestion={question.id}
+                                                    numberQuestion={numQuestionNow}
                                                     listAnswer={question.listAnswer}
+                                                    idGroup={question.idGroup}
+                                                    idQuestion={question.id}
+                                                />
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
+                                if (!activeExercise.reverseQuestion && index === numQuestionNow) {
+                                    return (
+                                        <div key={index}>
+                                            <h3 className={cx('ask-container-des')}>
+                                                Câu {numQuestionNow + 1}. {question.question}
+                                            </h3>
+                                            <div className={cx('ask-container-answer')}>
+                                                <ListAnswer
+                                                    numberQuestion={numQuestionNow}
+                                                    listAnswer={question.listAnswer}
+                                                    idGroup={question.idGroup}
+                                                    idQuestion={question.id}
                                                 />
                                             </div>
                                         </div>
@@ -94,7 +136,7 @@ const ExercisePage = () => {
                                     Câu trước
                                 </Button>
                                 <Button
-                                    disabled={numQuestionNow === listQuestion.length - 1}
+                                    disabled={numQuestionNow === activeExercise.listQuestion.length - 1}
                                     onClick={handleNextExercise}
                                     className={cx('btn-pageExercise-next')}
                                 >

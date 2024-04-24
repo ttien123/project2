@@ -12,23 +12,27 @@ interface Props {
         value: string;
     }[];
     numberQuestion: number;
+    idQuestion: number;
+    idGroup: number;
 }
 
-const ListAnswer = ({ listAnswer, numberQuestion }: Props) => {
+const ListAnswer = ({ listAnswer, numberQuestion, idGroup, idQuestion }: Props) => {
     const { listAnswer: listAnswerAll, setListAnswer } = useGetInfoExercise();
     const [value, setValue] = useState<number | undefined>(undefined);
     const onChange = (e: RadioChangeEvent) => {
         setValue(e.target.value);
-        listAnswer.forEach((item) => {
-            if (item.id === e.target.value) {
-                setListAnswer({ idQuestion: numberQuestion, answer: { id: e.target.value, value: item.value } });
-            }
-        });
+        const newAnswer = {
+            idGroup,
+            idQuestion,
+            answer: e.target.value,
+        };
+        setListAnswer(newAnswer);
     };
+
     useEffect(() => {
         listAnswerAll.forEach((item) => {
-            if (item.idQuestion === numberQuestion) {
-                setValue(item.answer.id);
+            if (item.idQuestion === idQuestion && item.idGroup == idGroup) {
+                setValue(item.answer);
             }
         });
     }, [numberQuestion, setValue]);

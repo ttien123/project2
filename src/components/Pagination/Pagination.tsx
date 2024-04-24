@@ -5,12 +5,13 @@ const cx = classNames.bind(styles);
 
 interface Props {
     setNumberPage: React.Dispatch<React.SetStateAction<number>>;
-    setPageSize: React.Dispatch<React.SetStateAction<number>>;
     totalListExercise: number;
+    pageSize: number;
+    numberPage: number;
 }
 
-const PaginationCst = ({ setNumberPage, setPageSize, totalListExercise }: Props) => {
-    const onChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
+const PaginationCst = ({ setNumberPage, totalListExercise, pageSize, numberPage }: Props) => {
+    const onChange: PaginationProps['onShowSizeChange'] = (current) => {
         setNumberPage(current - 1);
     };
     return (
@@ -19,9 +20,10 @@ const PaginationCst = ({ setNumberPage, setPageSize, totalListExercise }: Props)
             onChange={onChange}
             defaultCurrent={1}
             total={totalListExercise}
-            pageSizeOptions={[6]}
+            current={numberPage + 1}
             showLessItems
-            pageSize={6}
+            pageSize={pageSize}
+            hideOnSinglePage={totalListExercise === 0}
         />
     );
 };

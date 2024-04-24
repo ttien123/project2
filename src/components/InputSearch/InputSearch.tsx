@@ -5,7 +5,13 @@ import styles from './InputSearch.module.scss';
 import { useEffect, useState } from 'react';
 import useGetValueSearch from 'src/zustand/searchValue.ztd';
 const cx = classNames.bind(styles);
-const InputSearch = () => {
+
+interface Props {
+    setNumberPage: React.Dispatch<React.SetStateAction<number>>;
+    isTestManager?: boolean;
+}
+
+const InputSearch = ({ setNumberPage, isTestManager }: Props) => {
     const [valueInput, setValueInput] = useState('');
     const { setValueSearch } = useGetValueSearch();
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,6 +23,11 @@ const InputSearch = () => {
 
     const handleSearch = () => {
         setValueSearch(valueInput);
+        if (isTestManager) {
+            setNumberPage(1);
+        } else {
+            setNumberPage(0);
+        }
     };
 
     useEffect(() => {

@@ -1,3 +1,4 @@
+@import '../../components/GlobalStyles/media-query';
 .wrapper {
     height: 100vh;
     background: var(--bg-medium-primary);
@@ -12,5 +13,17 @@
         .main {
             max-height: 100vh;
         }
+    }
+}
+
+.isCreatePageWrapper {
+    @include ultra_tablet_max {
+        height: auto !important;
+    }
+}
+
+.isCreatePageWrapperContainer {
+    @include ultra_tablet_max {
+        max-height: none !important;
     }
 }

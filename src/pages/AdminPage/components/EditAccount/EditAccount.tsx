@@ -5,6 +5,7 @@ import classNames from 'classnames/bind';
 import styles from './EditAccount.module.scss';
 import { Button } from 'antd';
 import useGetListAccount from 'src/zustand/accounts.ztd';
+import { toast } from 'react-toastify';
 const cx = classNames.bind(styles);
 
 interface Props {
@@ -40,6 +41,10 @@ const EditAccount = ({ userAccount, setOpen }: Props) => {
                 }
             });
             setOpen(false);
+            toast.success('Update thành công', {
+                position: 'top-right',
+                autoClose: 1500,
+            });
         }
     };
     return (
@@ -49,7 +54,7 @@ const EditAccount = ({ userAccount, setOpen }: Props) => {
                 <span className={cx('wrapper-box-item')}>username: {userAccount.username}</span>
             </div>
             <div className={cx('wrapper-box')}>
-                <span className={cx('wrapper-box-item')}>password: {userAccount.password}</span>
+                <span className={cx('wrapper-box-item')}>password: ******</span>
             </div>
             <div className={cx('wrapper-box-repair')}>
                 <span className={cx('wrapper-box-repair-des')}>name:</span>

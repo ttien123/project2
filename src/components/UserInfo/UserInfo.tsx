@@ -7,17 +7,20 @@ import useGetIsAuthenticated from 'src/zustand/auth.ztd';
 import { setIsAuthenticatedToLS } from 'src/utils/auth';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import useGetValueSearch from 'src/zustand/searchValue.ztd';
+import useGetListAccount from 'src/zustand/accounts.ztd';
 const cx = classNames.bind(styles);
 const UserInfo = () => {
     const { setIsAuthenticated } = useGetIsAuthenticated();
     const { reset } = useGetInfoExercise();
     const { reset: resetSearch } = useGetValueSearch();
+    const { reset: resetAccount } = useGetListAccount();
 
     const handleLogout = () => {
         setIsAuthenticated(false);
         setIsAuthenticatedToLS(false);
         reset();
         resetSearch();
+        resetAccount();
     };
     return (
         <div className={cx('wrapper')}>

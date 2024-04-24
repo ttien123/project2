@@ -9,6 +9,8 @@ import AdminPage from './pages/AdminPage';
 import useGetIsAuthentication from './zustand/auth.ztd';
 import TestQuizPage from './pages/AdminPage/pages/TestQuizPage';
 import TestManagerPage from './pages/AdminPage/pages/TestManagerPage';
+import CreateTest from './pages/AdminPage/pages/CreateTest';
+import NotFound from './pages/NotFound';
 
 function ProtectedRoute() {
     const { isAuthenticated } = useGetIsAuthentication();
@@ -60,6 +62,10 @@ const useRouterElements = () => {
                             path: path.testManager,
                             element: <TestManagerPage />,
                         },
+                        {
+                            path: path.createTest,
+                            element: <CreateTest />,
+                        },
                     ],
                 },
             ],
@@ -73,6 +79,10 @@ const useRouterElements = () => {
                     element: <Login />,
                 },
             ],
+        },
+        {
+            path: '*',
+            element: <NotFound />,
         },
     ]);
 

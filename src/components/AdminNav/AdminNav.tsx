@@ -8,9 +8,25 @@ import path from 'src/constants/path';
 import IconUserAdmin from 'src/assets/IconUserAdmin';
 import IconQuestion from 'src/assets/IconQuestion';
 import IconUserGraduate from 'src/assets/IconUserGraduate';
+import useGetIsAuthenticated from 'src/zustand/auth.ztd';
+import useGetInfoExercise from 'src/zustand/exercise.ztd';
+import useGetValueSearch from 'src/zustand/searchValue.ztd';
+import useGetListAccount from 'src/zustand/accounts.ztd';
+import { setIsAuthenticatedToLS } from 'src/utils/auth';
 const cx = classNames.bind(styles);
 
 const AdminNav = () => {
+    const { setIsAuthenticated } = useGetIsAuthenticated();
+    const { reset } = useGetInfoExercise();
+    const { reset: resetSearch } = useGetValueSearch();
+    const { reset: resetAccount } = useGetListAccount();
+    const handleLogout = () => {
+        setIsAuthenticated(false);
+        setIsAuthenticatedToLS(false);
+        reset();
+        resetSearch();
+        resetAccount();
+    };
     return (
         <div className={cx('wrapper')}>
             <div className={cx('info')}>
@@ -32,7 +48,9 @@ const AdminNav = () => {
                     </NavLink>
                 </div>
             </div>
-            <Button className={cx('btn-logout')}>LOGOUT</Button>
+            <Button onClick={handleLogout} className={cx('btn-logout')}>
+                LOGOUT
+            </Button>
         </div>
     );
 };

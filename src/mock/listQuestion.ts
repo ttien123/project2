@@ -1,7 +1,9 @@
 export const listQuestion = [
     {
+        idGroup: 0,
         id: 0,
-        question: 'Nhân1 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
+        question:
+            'toán nhân viên  chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
         listAnswer: [
             {
                 id: 0,
@@ -23,8 +25,10 @@ export const listQuestion = [
         answer: 0,
     },
     {
+        idGroup: 0,
         id: 1,
-        question: 'Nhân2 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
+        question:
+            'toán Nhân1 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
         listAnswer: [
             {
                 id: 0,
@@ -46,8 +50,10 @@ export const listQuestion = [
         answer: 0,
     },
     {
+        idGroup: 0,
         id: 2,
-        question: 'Nhân3 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
+        question:
+            'toán Nhân2 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
         listAnswer: [
             {
                 id: 0,
@@ -69,8 +75,9 @@ export const listQuestion = [
         answer: 0,
     },
     {
-        id: 3,
-        question: 'Nhân4 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
+        idGroup: 1,
+        id: 0,
+        question: 'Văn Nhân0 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
         listAnswer: [
             {
                 id: 0,
@@ -92,8 +99,10 @@ export const listQuestion = [
         answer: 0,
     },
     {
-        id: 4,
-        question: 'Nhân5 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
+        idGroup: 3,
+        id: 0,
+        question:
+            'Công nghệ phần mềm Nhân0 viên chính thức của công ty Amela được nghỉ phép (có hưởng lương) bao nhiêu ngày một năm?',
         listAnswer: [
             {
                 id: 0,
@@ -117,6 +126,7 @@ export const listQuestion = [
 ];
 
 export type ListQuestionType = {
+    idGroup: number;
     id: number;
     question: string;
     listAnswer: {

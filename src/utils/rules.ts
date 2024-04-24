@@ -7,4 +7,11 @@ export const authSchema = yup.object({
     address: yup.string().required('Address is a required field'),
 });
 
+export const exerciseSchema = yup.object({
+    testName: yup.string().required('TestName is a required field').min(4, 'TestName must be at least 4 characters'),
+    time: yup.string().required('Time is a required field').min(1, 'Time must be at least 1 minute'),
+    difficult: yup.string().required('Difficult is a required field'),
+});
+
 export type AuthSchema = yup.InferType<typeof authSchema>;
+export type ExerciseSchema = yup.InferType<typeof exerciseSchema>;

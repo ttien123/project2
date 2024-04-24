@@ -1,0 +1,178 @@
+@import '../../../../components/GlobalStyles/media-query';
+
+.wrapper {
+    padding-bottom: 16px;
+    flex: 1;
+    &-container {
+        height: 100%;
+        .box-form-container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    &-form {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-top: 16px;
+        &-label {
+            width: 100px;
+            transform: translateY(-16px);
+            @include ultra_tablet_max {
+                width: 80px;
+            }
+        }
+    }
+    &-box-form {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-top: 4px;
+
+        @include ultra_tablet_max {
+            flex-direction: column;
+            align-items: start;
+            &:last-child {
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+
+        &-item {
+            display: flex;
+            align-items: center;
+            min-width: 350px;
+            @include ultra_tablet_max {
+                min-width: 100px;
+            }
+            &-label {
+                width: 100px;
+                transform: translateY(-16px);
+
+                @include ultra_tablet_max {
+                    width: 80px;
+                }
+            }
+            &:first-child {
+                margin-right: 60px;
+                @include ultra_tablet_max {
+                    margin-right: 16px;
+                    flex: 1;
+                }
+            }
+        }
+    }
+    .group {
+        flex: 1;
+        margin-top: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+
+        @include ultra_tablet_max {
+            flex-direction: column;
+        }
+        &-question {
+            width: 50%;
+            background: white;
+            padding: 16px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            @include ultra_tablet_max {
+                width: 100%;
+            }
+            &-title {
+                font-size: 16px;
+                text-align: center;
+                margin-bottom: 16px;
+                margin-top: 0;
+            }
+            &-list {
+                font-size: 16px;
+                gap: 1px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                &-info {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1px;
+                    height: 50px;
+
+                    &-stt {
+                        width: 15%;
+                        background: #d9d9d9;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    &-check {
+                        width: 15%;
+                        background: #d9d9d9;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        &-item {
+                            display: block;
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+                    &-name {
+                        height: 100%;
+                        width: 70%;
+                        background: #d9d9d9;
+                        text-align: center;
+                        overflow: hidden;
+                        display: -webkit-box;
+                        -webkit-box-orient: vertical;
+                        -webkit-line-clamp: 2;
+                        padding: 1px;
+                    }
+                }
+            }
+        }
+        &-choice {
+            width: 50%;
+        }
+    }
+}
+
+.btn-box {
+    margin-top: 16px;
+    text-align: center;
+    &-add {
+        font-size: 16px;
+        font-weight: 700;
+    }
+}
+
+.error-message {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    color: #dc2626;
+    min-height: 2px;
+    font-size: 14px;
+    font-weight: 600;
+    min-height: 21px;
+}
+
+.pc {
+    display: block;
+    @include ultra_tablet_max {
+        display: none;
+    }
+}
+
+.tablet {
+    display: none;
+    @include ultra_tablet_max {
+        display: block;
+    }
+}

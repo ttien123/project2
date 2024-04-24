@@ -90,6 +90,7 @@
             @include ultra_tablet_max {
                 grid-template-columns: repeat(1, minmax(0, 1fr));
             }
+
             .exe-item {
                 grid-column: span 1 / span 1;
                 display: flex;

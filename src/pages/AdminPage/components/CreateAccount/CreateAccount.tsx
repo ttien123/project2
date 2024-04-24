@@ -2,6 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Button } from 'antd';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import Input from 'src/components/Input';
 import { UserAccountType } from 'src/mock/listAccountUser';
 import { AuthSchema, authSchema } from 'src/utils/rules';
@@ -39,7 +40,15 @@ const CreateAccount = ({ setOpen }: Props) => {
         newListAccount.push(newAccount);
         setListAccount(newListAccount);
         setOpen(false);
+        toast.success('Tạo tài khoản thành công', {
+            autoClose: 1500,
+            delay: 250,
+        });
     });
+
+    const handleCancel = () => {
+        setOpen(false);
+    };
     return (
         <div>
             <h2>Create Account</h2>
@@ -86,7 +95,16 @@ const CreateAccount = ({ setOpen }: Props) => {
                     />
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                    <Button htmlType="submit" type="primary" size="large" style={{ width: '100%', marginTop: 16 }}>
+                    <Button
+                        onClick={handleCancel}
+                        htmlType="button"
+                        type="primary"
+                        size="large"
+                        style={{ marginTop: 16, marginRight: 16 }}
+                    >
+                        Cancel
+                    </Button>
+                    <Button htmlType="submit" type="primary" size="large" style={{ marginTop: 16 }}>
                         Create
                     </Button>
                 </div>

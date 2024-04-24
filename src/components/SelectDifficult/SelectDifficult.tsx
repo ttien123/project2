@@ -5,10 +5,15 @@ import styles from './SelectDifficult.module.scss';
 import useGetValueSearch from 'src/zustand/searchValue.ztd';
 const cx = classNames.bind(styles);
 
-const SelectDifficult = () => {
+interface Props {
+    setNumberPage?: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const SelectDifficult = ({ setNumberPage }: Props) => {
     const { setValueDiff } = useGetValueSearch();
     const handleChange = (value: string) => {
         setValueDiff(Number(value));
+        setNumberPage && setNumberPage(0);
     };
 
     return (
