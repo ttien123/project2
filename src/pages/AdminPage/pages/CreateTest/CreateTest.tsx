@@ -8,7 +8,7 @@ import Input from 'src/components/Input';
 import SelectDifficultAdmin from 'src/components/SelectDifficultAdmin';
 import { useEffect, useState } from 'react';
 import { Button, Checkbox, CheckboxProps } from 'antd';
-import { ListQuestionTypeGr, groupQuestionType, listGroupQuestion } from 'src/mock/listGroupQuestion';
+import { ListQuestionTypeGr, groupQuestionType } from 'src/mock/listGroupQuestion';
 import PaginationCst from 'src/components/Pagination/Pagination';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,22 +22,23 @@ import { Exercise } from 'src/mock/listExe';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import { toast } from 'react-toastify';
 import Nodata from 'src/components/Nodata';
+import SelectGroupQuestion from 'src/components/SelectGroupQuestion';
 const cx = classNames.bind(styles);
 
 type FormExerciseSchema = Pick<ExerciseSchema, 'testName' | 'time' | 'difficult'>;
 const createExerciseSchema = exerciseSchema.pick(['testName', 'time', 'difficult']);
 
 const CreateTest = () => {
-    const { listExercise, setListExercise, activeExerciseAdmin } = useGetInfoExercise();
+    const { listExercise, setListExercise, activeExerciseAdmin, listGrQuestion } = useGetInfoExercise();
     const [numberPageGrQuestion, setNumberPageGrQuestion] = useState<number>(0);
     const [numberPageListQsCh, setNumberPageListQsCh] = useState<number>(0);
     const [isSubmitNoQs, setIsSubmitNoQs] = useState<boolean>(false);
     const [isReverseQuestion, setIsReverseQuestion] = useState<boolean>(false);
     const [selectDiff, setSelectDiff] = useState<number | undefined>(undefined);
-    const [selectGroupExercise, setSelectGroupExercise] = useState<number | undefined>(undefined);
+    const [selectGroupExercise, setSelectGroupExercise] = useState<string>('');
     const [groupQuestionChoice, setGroupQuestionChoice] = useState<groupQuestionType | undefined>(undefined);
     const [listQuestionChoice, setListQuestionChoice] = useState<ListQuestionTypeGr[]>([]);
-    const listGroupExercise: { value: number; label: string }[] = listGroupQuestion.map((item) => ({
+    const listGroupExercise: { value: string; label: string }[] = listGrQuestion.map((item) => ({
         value: item.id,
         label: item.name,
     }));
@@ -71,14 +72,16 @@ const CreateTest = () => {
                 reverseQuestion: isReverseQuestion,
             };
             const newListExercise = [...listExercise, newObj];
-            toast.success('Tạo bài test thành công');
+            toast.success('Tạo bài test thành công', {
+                autoClose: 1500,
+            });
             setListExercise(newListExercise);
             setIsSubmitNoQs(false);
             setNumberPageGrQuestion(0);
             setNumberPageListQsCh(0);
             setIsReverseQuestion(false);
             setSelectDiff(undefined);
-            setSelectGroupExercise(undefined);
+            setSelectGroupExercise('');
             setGroupQuestionChoice(undefined);
             setListQuestionChoice([]);
             reset();
@@ -109,7 +112,7 @@ const CreateTest = () => {
             setNumberPageListQsCh(0);
             setIsReverseQuestion(false);
             setSelectDiff(undefined);
-            setSelectGroupExercise(undefined);
+            setSelectGroupExercise('');
             setGroupQuestionChoice(undefined);
             setListQuestionChoice([]);
             reset();
@@ -159,8 +162,8 @@ const CreateTest = () => {
     }, [activeExerciseAdmin]);
 
     useEffect(() => {
-        if (selectGroupExercise || selectGroupExercise === 0) {
-            const newArr = listGroupQuestion.find((item) => item.id === selectGroupExercise);
+        if (selectGroupExercise) {
+            const newArr = listGrQuestion.find((item) => item.id === selectGroupExercise);
             setGroupQuestionChoice(newArr);
         }
     }, [selectGroupExercise]);
@@ -173,7 +176,7 @@ const CreateTest = () => {
         <>
             <MenuTop element={<AdminNav />} title={'Test Manager'} />
             <HeadingAdminPage
-                title="Thêm mới test"
+                title={activeExerciseAdmin ? 'Sửa bài test' : 'Thêm mới test'}
                 listLink={
                     <div>
                         <Link style={{ color: '#666161', fontWeight: 400 }} to={path.admin}>
@@ -181,7 +184,7 @@ const CreateTest = () => {
                         </Link>
                         {' > '}
                         <Link style={{ color: '#666161', fontWeight: 400 }} to={path.testManager}>
-                            {'Test quiz manager'}
+                            {'List topic manager'}
                         </Link>
                         <span>{' > new test'}</span>
                     </div>
@@ -257,7 +260,7 @@ const CreateTest = () => {
                                         >
                                             Nhóm:
                                         </div>
-                                        <SelectDifficultAdmin
+                                        <SelectGroupQuestion
                                             selected={selectGroupExercise}
                                             setSelect={setSelectGroupExercise}
                                             listValue={listGroupExercise}
@@ -294,7 +297,7 @@ const CreateTest = () => {
                                                     Tên câu hỏi
                                                 </div>
                                             </div>
-                                            {groupQuestionChoice ? (
+                                            {groupQuestionChoice && groupQuestionChoice.ListQuestion.length > 0 ? (
                                                 groupQuestionChoice.ListQuestion.map((item, index) => {
                                                     if (
                                                         index >= 3 * numberPageGrQuestion &&

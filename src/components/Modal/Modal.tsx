@@ -1,14 +1,16 @@
-import { Button, Modal } from 'antd';
-import React, { useState } from 'react';
-
+import { Modal } from 'antd';
+import React from 'react';
+import './Modal.module.scss';
 interface Props {
     ButtonOpen?: React.ReactNode;
     Content: React.ReactNode;
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    width?: number;
+    className?: string;
 }
 
-const ModalCst = ({ ButtonOpen, Content, open, setOpen }: Props) => {
+const ModalCst = ({ ButtonOpen, Content, open, setOpen, width, className }: Props) => {
     const showModal = () => {
         setOpen(true);
     };
@@ -24,7 +26,16 @@ const ModalCst = ({ ButtonOpen, Content, open, setOpen }: Props) => {
                     {ButtonOpen}
                 </button>
             )}
-            <Modal destroyOnClose open={open} centered onCancel={hideModal} footer={null} closeIcon={false}>
+            <Modal
+                width={width}
+                destroyOnClose
+                open={open}
+                centered
+                onCancel={hideModal}
+                footer={null}
+                closeIcon={false}
+                className={className}
+            >
                 {Content}
             </Modal>
         </>

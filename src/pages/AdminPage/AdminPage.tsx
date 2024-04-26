@@ -1,5 +1,4 @@
 import InputSearch from 'src/components/InputSearch';
-import BoxEdit from 'src/components/BoxEdit';
 import ButtonAdd from 'src/components/ButtonAdd';
 import ListAccount from './components/ListAccount';
 import PaginationCst from 'src/components/Pagination/Pagination';
@@ -39,9 +38,9 @@ const AdminPage = () => {
                     </div>
                 </div>
                 <h3 className={cx('wrapper-total-account')}>Tổng số tài khoản: {listAccount.length}</h3>
-                <BoxEdit>
+                <div style={{ flex: 1, overflow: 'auto' }}>
                     <ListAccount numberPage={numberPage} pageSize={pageSize} setNumberPage={setNumberPage} />
-                </BoxEdit>
+                </div>
                 <div style={{ textAlign: 'center', paddingTop: '16px' }}>
                     <PaginationCst
                         numberPage={numberPage}

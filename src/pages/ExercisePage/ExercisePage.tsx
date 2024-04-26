@@ -64,7 +64,7 @@ const ExercisePage = () => {
     }, [totalTimeRemaining]);
 
     return (
-        <div className={cx('wrapper')}>
+        <div className={`${cx('wrapper')} ExercisePAge`}>
             <div className={cx('wrapper-menu')}>
                 <div className={cx('wrapper-menu-icon')}>
                     <DrawerCst element={<UserInfo />} />

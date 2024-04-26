@@ -12,8 +12,8 @@ interface Props {
         value: string;
     }[];
     numberQuestion: number;
-    idQuestion: number;
-    idGroup: number;
+    idQuestion: string;
+    idGroup: string;
     indexInGr: number;
 }
 
@@ -46,7 +46,10 @@ const ListAnswer = ({ listAnswer, numberQuestion, idGroup, idQuestion, indexInGr
                 {listAnswer.map((item) => (
                     <Radio key={item.id} value={item.id}>
                         <CheckOutlined className={'icon-check'} />
-                        {item.value}
+                        {item.id === 0 && `A. ${item.value}`}
+                        {item.id === 1 && `B. ${item.value}`}
+                        {item.id === 2 && `C. ${item.value}`}
+                        {item.id === 3 && `D. ${item.value}`}
                     </Radio>
                 ))}
             </Space>

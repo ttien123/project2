@@ -33,6 +33,15 @@ a:hover {
     color: initial;
 }
 
+.icon-check {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 3%;
+    font-size: 20px;
+    transform: translateY(-50%);
+}
+
 .btn-logout {
     height: 60px;
     background-color: var(--bg-btn-logout, #c9cbcb);
@@ -52,40 +61,6 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.ant-modal .ant-modal-content {
-    padding: 12px;
-}
-
-.icon-check {
-    display: none;
-    position: absolute;
-    top: 50%;
-    left: 3%;
-    font-size: 20px;
-    transform: translateY(-50%);
-}
-
-.ant-radio-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    .ant-radio {
-        width: 36px;
-        height: 36px;
-        display: block;
-        background: #d9d9d9;
-        border: 1px solid #000000;
-        border-radius: 0;
-    }
-    .ant-radio-inner {
-        display: none;
-    }
-}
-
-.ant-radio-wrapper-checked .icon-check {
-    display: inline-flex !important;
 }
 
 .ant-drawer .ant-drawer-body {

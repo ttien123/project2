@@ -1,20 +1,28 @@
 import { Exercise } from 'src/mock/listExe';
-import { getListExerciseFromLS, setListExerciseToLS } from 'src/utils/exercise';
+import { groupQuestionType } from 'src/mock/listGroupQuestion';
+import {
+    getListExerciseFromLS,
+    getListGroupQuestion,
+    setListExerciseToLS,
+    setListGroupQuestionToLS,
+} from 'src/utils/exercise';
 import { create } from 'zustand';
 
 export type ListAnswerType = {
-    idGroup: number;
+    idGroup: string;
+    idQuestion: string;
     indexInGr: number;
-    idQuestion: number;
     answer: number;
 };
 
 type State = {
     numQuestionNow: number;
     activeExercise: Exercise;
+    activeListGroupQuestion: groupQuestionType | undefined;
     activeExerciseAdmin: Exercise | undefined;
     listAnswer: ListAnswerType[];
     listExercise: Exercise[];
+    listGrQuestion: groupQuestionType[];
 };
 
 type Actions = {
@@ -22,13 +30,16 @@ type Actions = {
     setListAnswer: (body: ListAnswerType) => void;
     setActiveExercise: (body: Exercise) => void;
     setActiveExerciseAdmin: (body: Exercise | undefined) => void;
+    setActiveListGroupQuestion: (body: groupQuestionType | undefined) => void;
     setListExercise: (body: Exercise[]) => void;
+    setListGrQuestion: (body: groupQuestionType[]) => void;
     reset: () => void;
 };
 
 const initialState: State = {
     numQuestionNow: 0,
     listExercise: getListExerciseFromLS(),
+    listGrQuestion: getListGroupQuestion(),
     activeExercise: {
         id: '0',
         difficult: 0,
@@ -40,6 +51,7 @@ const initialState: State = {
         reverseQuestion: false,
     },
     activeExerciseAdmin: undefined,
+    activeListGroupQuestion: undefined,
     listAnswer: [],
 };
 
@@ -48,10 +60,17 @@ const useGetInfoExercise = create<State & Actions>()((set) => ({
     setNumQuestionNow: (body) => set((state) => ({ numQuestionNow: (state.numQuestionNow = body) })),
     setActiveExercise: (body) => set((state) => ({ activeExercise: (state.activeExercise = body) })),
     setActiveExerciseAdmin: (body) => set((state) => ({ activeExerciseAdmin: (state.activeExerciseAdmin = body) })),
+    setActiveListGroupQuestion: (body) =>
+        set((state) => ({ activeListGroupQuestion: (state.activeListGroupQuestion = body) })),
     setListExercise: (body) =>
         set((state) => {
             setListExerciseToLS(body);
             return { listExercise: (state.listExercise = body) };
+        }),
+    setListGrQuestion: (body) =>
+        set((state) => {
+            setListGroupQuestionToLS(body);
+            return { listGrQuestion: (state.listGrQuestion = body) };
         }),
     setListAnswer: (body) =>
         set((state) => {

@@ -32,8 +32,8 @@ const Login = () => {
     });
 
     const onSubmit = handleSubmit((data) => {
-        data && setIsAuthenticated(true);
-        data && setIsAuthenticatedToLS(true);
+        data && setIsAuthenticated('user');
+        data && setIsAuthenticatedToLS('user');
     });
     return (
         <div className={cx('login')}>

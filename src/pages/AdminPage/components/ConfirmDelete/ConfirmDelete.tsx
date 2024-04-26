@@ -5,18 +5,30 @@ import { UserAccountType } from 'src/mock/listAccountUser';
 import classNames from 'classnames/bind';
 import styles from './ConfirmDelete.module.scss';
 import { Exercise } from 'src/mock/listExe';
+import { ListQuestionTypeGr, groupQuestionType } from 'src/mock/listGroupQuestion';
 const cx = classNames.bind(styles);
 
 interface Props {
     userAccount?: UserAccountType;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     handleDeleteAccount?: (account: UserAccountType) => void;
-    handleDeleteExercise?: (record: Exercise) => void;
-    record?: Exercise;
+    handleDeleteExercise?: (record: Exercise | groupQuestionType) => void;
+    handleDeleteQuestion?: (record: ListQuestionTypeGr) => void;
+    record?: Exercise | groupQuestionType;
+    questionDelete?: ListQuestionTypeGr | undefined;
     title: string;
 }
 
-const ConfirmDelete = ({ setOpen, userAccount, handleDeleteAccount, title, record, handleDeleteExercise }: Props) => {
+const ConfirmDelete = ({
+    setOpen,
+    userAccount,
+    handleDeleteAccount,
+    title,
+    record,
+    handleDeleteExercise,
+    handleDeleteQuestion,
+    questionDelete,
+}: Props) => {
     return (
         <div className={cx('wrapper')}>
             <h2 className={cx('wrapper-title')}>{title}</h2>
@@ -33,6 +45,8 @@ const ConfirmDelete = ({ setOpen, userAccount, handleDeleteAccount, title, recor
                     onClick={() => {
                         userAccount && handleDeleteAccount && handleDeleteAccount(userAccount);
                         record && handleDeleteExercise && handleDeleteExercise(record);
+                        questionDelete && handleDeleteQuestion && handleDeleteQuestion(questionDelete);
+                        setOpen(false);
                     }}
                     type="primary"
                 >

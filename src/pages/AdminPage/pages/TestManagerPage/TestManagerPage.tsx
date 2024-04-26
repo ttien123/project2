@@ -24,6 +24,7 @@ import ModalCst from 'src/components/Modal';
 import ConfirmDelete from '../../components/ConfirmDelete';
 import { toast } from 'react-toastify';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
+import { groupQuestionType } from 'src/mock/listGroupQuestion';
 
 interface PropsListPageSize {
     setPageSize: React.Dispatch<React.SetStateAction<number>>;
@@ -79,7 +80,7 @@ const TestManagerPage = () => {
         setCurrentPage(page);
     };
 
-    const handleDeleteExercise = (record: Exercise) => {
+    const handleDeleteExercise = (record: Exercise | groupQuestionType) => {
         const indexValue = listExercise.findIndex((item) => item.id === record.id);
         const newList: Exercise[] = [...listExercise];
         newList.splice(indexValue, 1);
@@ -214,7 +215,7 @@ const TestManagerPage = () => {
                         />
                     </div>
                 </div>
-                <div className={cx('table-container')}>
+                <div className={`${cx('table-container')} testManagerPage`}>
                     <Table
                         columns={columns}
                         pagination={{

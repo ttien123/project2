@@ -21,8 +21,8 @@ const AdminNav = () => {
     const { reset: resetSearch } = useGetValueSearch();
     const { reset: resetAccount } = useGetListAccount();
     const handleLogout = () => {
-        setIsAuthenticated(false);
-        setIsAuthenticatedToLS(false);
+        setIsAuthenticated('');
+        setIsAuthenticatedToLS('');
         reset();
         resetSearch();
         resetAccount();

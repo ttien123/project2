@@ -18,6 +18,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
     rules?: RegisterOptions;
     isSmall?: boolean;
     isFull?: boolean;
+    isBorder?: boolean;
 }
 
 const Input = ({
@@ -34,6 +35,7 @@ const Input = ({
     autoComplete,
     isSmall,
     isFull,
+    isBorder,
     ...rest
 }: Props) => {
     const registerResult = register && name ? register(name, rules) : null;
@@ -57,7 +59,9 @@ const Input = ({
                 )}
                 <input
                     type={type}
-                    className={cx('wrapper-input')}
+                    className={cx('wrapper-input', {
+                        isBorder: isBorder,
+                    })}
                     placeholder={placeholder}
                     autoComplete="current-password"
                     {...registerResult}

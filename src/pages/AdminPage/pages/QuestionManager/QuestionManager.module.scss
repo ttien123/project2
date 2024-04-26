@@ -1,0 +1,75 @@
+@import '../../../../components/GlobalStyles/media-query';
+
+.wrapper {
+    &-search {
+        display: flex;
+        align-items: center;
+        height: 60px;
+        margin-top: 32px;
+        @include ultra_tablet_max {
+            margin-top: 12px;
+        }
+        &-input {
+            height: 100%;
+            flex: 1;
+            margin-right: 20px;
+        }
+        &-add {
+            height: 100%;
+            width: 280px;
+            background: #d9d9d9;
+            @include ultra_tablet_max {
+                width: 48px;
+                background: transparent;
+            }
+        }
+    }
+}
+
+.total-question {
+    font-size: 16px;
+}
+.list-question {
+    flex: 1;
+    margin-top: 16px;
+
+    @include ultra_tablet_max {
+        background: #d9d9d9;
+        padding: 8px;
+    }
+    &-item {
+        margin-top: 16px;
+        background: #d9d9d9;
+        padding: 12px 16px;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        display: flex;
+        &:first-child {
+            margin-top: 0;
+        }
+        .question-info {
+            flex: 1;
+            padding: 4px;
+            &-name {
+                margin-top: 0;
+                margin-bottom: 4px;
+            }
+            &-List {
+            }
+            &-List-answer {
+                margin: 4px 0;
+            }
+        }
+
+        .question-action {
+        }
+    }
+}
+
+.active {
+    color: #26853b;
+}
+
+.QuestionManagerModal {
+    background: #f5d4d4;
+}
