@@ -1,7 +1,7 @@
 import iconBin from 'src/assets/images/IconBin.png';
 import HeadingAdminPage from '../../components/HeadingAdminPage';
 import path from 'src/constants/path';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import MenuTop from 'src/components/MenuTop';
 import AdminNav from 'src/components/AdminNav';
 import Input from 'src/components/Input';
@@ -23,21 +23,26 @@ import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import { toast } from 'react-toastify';
 import Nodata from 'src/components/Nodata';
 import SelectGroupQuestion from 'src/components/SelectGroupQuestion';
+import ModalCst from 'src/components/Modal';
+import ConfirmDelete from '../../components/ConfirmDelete';
 const cx = classNames.bind(styles);
 
 type FormExerciseSchema = Pick<ExerciseSchema, 'testName' | 'time' | 'difficult'>;
 const createExerciseSchema = exerciseSchema.pick(['testName', 'time', 'difficult']);
 
 const CreateTest = () => {
+    const navigate = useNavigate();
     const { listExercise, setListExercise, activeExerciseAdmin, listGrQuestion } = useGetInfoExercise();
     const [numberPageGrQuestion, setNumberPageGrQuestion] = useState<number>(0);
     const [numberPageListQsCh, setNumberPageListQsCh] = useState<number>(0);
     const [isSubmitNoQs, setIsSubmitNoQs] = useState<boolean>(false);
     const [isReverseQuestion, setIsReverseQuestion] = useState<boolean>(false);
+    const [isOpenDeleteQsCh, setIsOpenDeleteQsCh] = useState<boolean>(false);
     const [selectDiff, setSelectDiff] = useState<number | undefined>(undefined);
     const [selectGroupExercise, setSelectGroupExercise] = useState<string>('');
     const [groupQuestionChoice, setGroupQuestionChoice] = useState<groupQuestionType | undefined>(undefined);
     const [listQuestionChoice, setListQuestionChoice] = useState<ListQuestionTypeGr[]>([]);
+    const [questionDelete, setQuestionDelete] = useState<ListQuestionTypeGr | undefined>(undefined);
     const listGroupExercise: { value: string; label: string }[] = listGrQuestion.map((item) => ({
         value: item.id,
         label: item.name,
@@ -104,8 +109,8 @@ const CreateTest = () => {
                     return item;
                 }
             });
-
-            toast.success('Tạo bài test thành công');
+            toast.success('Update bài test thành công');
+            activeExerciseAdmin && navigate(path.testManager);
             setListExercise(newListExercise);
             setIsSubmitNoQs(false);
             setNumberPageGrQuestion(0);
@@ -140,13 +145,17 @@ const CreateTest = () => {
             });
         }
     };
-    const handleDeleteQsCh = (item: ListQuestionTypeGr) => {
-        let newArr = [...listQuestionChoice];
-        let arrFilter = newArr.filter((itemFilter) => itemFilter.id === item.id && itemFilter.idGroup === item.idGroup);
-        let result = newArr.filter((itemRs) => !arrFilter.includes(itemRs));
-        setListQuestionChoice(result);
-        if (result.length <= 3 * numberPageListQsCh && numberPageListQsCh > 0) {
-            setNumberPageListQsCh((prev) => prev - 1);
+    const handleDeleteQsCh = () => {
+        if (questionDelete) {
+            let newArr = [...listQuestionChoice];
+            let arrFilter = newArr.filter(
+                (itemFilter) => itemFilter.id === questionDelete.id && itemFilter.idGroup === questionDelete.idGroup,
+            );
+            let result = newArr.filter((itemRs) => !arrFilter.includes(itemRs));
+            setListQuestionChoice(result);
+            if (result.length <= 3 * numberPageListQsCh && numberPageListQsCh > 0) {
+                setNumberPageListQsCh((prev) => prev - 1);
+            }
         }
     };
 
@@ -175,6 +184,17 @@ const CreateTest = () => {
     return (
         <>
             <MenuTop element={<AdminNav />} title={'Test Manager'} />
+            <ModalCst
+                Content={
+                    <ConfirmDelete
+                        title="Bạn có chắc chắn muốn xóa Câu hỏi này?"
+                        setOpen={setIsOpenDeleteQsCh}
+                        handleDelete={handleDeleteQsCh}
+                    />
+                }
+                open={isOpenDeleteQsCh}
+                setOpen={setIsOpenDeleteQsCh}
+            />
             <HeadingAdminPage
                 title={activeExerciseAdmin ? 'Sửa bài test' : 'Thêm mới test'}
                 listLink={
@@ -393,7 +413,10 @@ const CreateTest = () => {
                                                                 <div className={cx('group-question-list-info-check')}>
                                                                     <button
                                                                         type="button"
-                                                                        onClick={() => handleDeleteQsCh(item)}
+                                                                        onClick={() => {
+                                                                            setQuestionDelete(item);
+                                                                            setIsOpenDeleteQsCh(true);
+                                                                        }}
                                                                     >
                                                                         <img
                                                                             src={iconBin}
@@ -440,7 +463,7 @@ const CreateTest = () => {
                                     size="large"
                                     className={cx('btn-box-add')}
                                 >
-                                    ADD New
+                                    {activeExerciseAdmin ? 'Update' : 'ADD New'}
                                 </Button>
                             </div>
                         </form>

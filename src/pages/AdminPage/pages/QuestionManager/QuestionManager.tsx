@@ -35,7 +35,7 @@ const QuestionManager = () => {
     const [questionDelete, setQuestionDelete] = useState<ListQuestionTypeGr | undefined>(undefined);
     const [questionRepair, setQuestionRepair] = useState<ListQuestionTypeGr | undefined>(undefined);
 
-    const handleDeleteQuestion = (questionDelete: ListQuestionTypeGr | undefined) => {
+    const handleDeleteQuestion = () => {
         if (questionDelete) {
             const newListGrQuestion = [...listGrQuestion];
             const result = newListGrQuestion.map((item) => {
@@ -69,19 +69,23 @@ const QuestionManager = () => {
     }, [listGrQuestion, listGrQsNow]);
 
     useEffect(() => {
-        let newList = activeListGroupQuestion?.ListQuestion.filter((e) =>
-            e.question.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
-        );
-        setListGrQsNow(newList);
-    }, [valueSearch]);
-
-    useEffect(() => {
         listGrQuestion.forEach((item) => {
             if (item.id === activeListGroupQuestion?.id) {
                 setListGrQsNow(item.ListQuestion);
             }
         });
     }, [listGrQuestion]);
+
+    useEffect(() => {
+        listGrQuestion.forEach((item) => {
+            if (item.id === activeListGroupQuestion?.id) {
+                let newList = item.ListQuestion.filter((e) =>
+                    e.question.toLocaleLowerCase().includes(valueSearch?.trim().toLocaleLowerCase() || ''),
+                );
+                setListGrQsNow(newList);
+            }
+        });
+    }, [valueSearch, listGrQuestion]);
 
     return (
         <>
@@ -91,8 +95,7 @@ const QuestionManager = () => {
                     <ConfirmDelete
                         title="Bạn có chắc chắn muốn xóa Câu hỏi này?"
                         setOpen={setOpenDeleteQuestion}
-                        handleDeleteQuestion={handleDeleteQuestion}
-                        questionDelete={questionDelete}
+                        handleDelete={handleDeleteQuestion}
                     />
                 }
                 open={openDeleteQuestion}
@@ -127,6 +130,7 @@ const QuestionManager = () => {
                     <div className={cx('wrapper-search-add')}>
                         <ButtonAdd
                             handleClick={() => {
+                                setQuestionRepair(undefined);
                                 setOpenInfoQuestion(true);
                             }}
                             srcIcon={imgAdd}

@@ -81,15 +81,17 @@ const TestManagerPage = () => {
         setCurrentPage(page);
     };
 
-    const handleDeleteExercise = (record: Exercise | groupQuestionType) => {
-        const indexValue = listGrQuestion.findIndex((item) => item.id === record.id);
-        const newList: groupQuestionType[] = [...listGrQuestion];
-        newList.splice(indexValue, 1);
-        setListGrQuestion(newList);
-        setOpenConfirmDelete(false);
-        toast.success('Xóa bài tập thành công', {
-            autoClose: 1500,
-        });
+    const handleDeleteExercise = () => {
+        if (topicDelete) {
+            const indexValue = listGrQuestion.findIndex((item) => item.id === topicDelete.id);
+            const newList: groupQuestionType[] = [...listGrQuestion];
+            newList.splice(indexValue, 1);
+            setListGrQuestion(newList);
+            setOpenConfirmDelete(false);
+            toast.success('Xóa bài tập thành công', {
+                autoClose: 1500,
+            });
+        }
     };
 
     const columns: ColumnsType<groupQuestionType> = [
@@ -156,15 +158,16 @@ const TestManagerPage = () => {
     }, [listGrQuestion, pageSize]);
 
     useEffect(() => {
-        let newList = listGrQuestion.filter((e) =>
-            e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
-        );
-        setListGrQuestionNow(newList);
-    }, [valueSearch]);
-
-    useEffect(() => {
         setListGrQuestionNow(listGrQuestion);
     }, [listGrQuestion]);
+
+    useEffect(() => {
+        let newList = listGrQuestion.filter((e) =>
+            e.name.toLocaleLowerCase().includes(valueSearch?.trim().toLocaleLowerCase() || ''),
+        );
+        setListGrQuestionNow(newList);
+    }, [valueSearch, listGrQuestion]);
+
     return (
         <>
             <MenuTop element={<AdminNav />} title={'List topic manager'} />
@@ -173,8 +176,7 @@ const TestManagerPage = () => {
                     <ConfirmDelete
                         title="Bạn có chắc chắn muốn xóa topic này?"
                         setOpen={setOpenConfirmDelete}
-                        handleDeleteExercise={handleDeleteExercise}
-                        record={topicDelete}
+                        handleDelete={handleDeleteExercise}
                     />
                 }
                 open={openConfirmDelete}

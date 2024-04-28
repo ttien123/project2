@@ -32,9 +32,10 @@ const Login = () => {
     });
 
     const onSubmit = handleSubmit((data) => {
-        data && setIsAuthenticated('user');
-        data && setIsAuthenticatedToLS('user');
+        data && setIsAuthenticated('admin');
+        data && setIsAuthenticatedToLS('admin');
     });
+
     return (
         <div className={cx('login')}>
             <div className={cx('login-container')}>

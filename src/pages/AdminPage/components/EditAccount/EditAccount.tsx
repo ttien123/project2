@@ -14,7 +14,7 @@ interface Props {
 }
 
 const EditAccount = ({ userAccount, setOpen }: Props) => {
-    const { listAccount } = useGetListAccount();
+    const { listAccount, setListAccount } = useGetListAccount();
 
     const [valueName, setValueName] = useState<string>(userAccount.name);
     const [valueAddress, setValueAddress] = useState<string>(userAccount.address);
@@ -30,16 +30,19 @@ const EditAccount = ({ userAccount, setOpen }: Props) => {
 
     const handleUpdate = () => {
         if (valueName && valueAddress) {
-            listAccount.map((item, index) => {
+            const newListAccount = listAccount.map((item, index) => {
                 if (item.id === userAccount.id) {
                     const newUser = {
                         ...userAccount,
                         name: valueName,
                         address: valueAddress,
                     };
-                    listAccount.splice(index, 1, newUser);
+                    return newUser;
+                } else {
+                    return item;
                 }
             });
+            setListAccount(newListAccount);
             setOpen(false);
             toast.success('Update thành công', {
                 position: 'top-right',

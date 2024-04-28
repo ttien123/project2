@@ -27,7 +27,7 @@ const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(function Inpu
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         // (/^\d+$/.test(value) || value === '') là để kiểm tra xem có phải là số hoặc "" không
-        if (/^\d+$/.test(value) || value === '') {
+        if (/^[1-9][0-9]*$/.test(value) || value === '') {
             onChange && onChange(event);
             setLocalValue(value);
         }

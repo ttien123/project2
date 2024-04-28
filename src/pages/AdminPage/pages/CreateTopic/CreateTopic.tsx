@@ -21,7 +21,8 @@ type FormTopicSchema = Pick<TopicSchema, 'name' | 'description'>;
 const createTopicSchema = topicSchema.pick(['name', 'description']);
 
 const CreateTopic = () => {
-    const { listGrQuestion, setListGrQuestion } = useGetInfoExercise();
+    const { listGrQuestion, setListGrQuestion, setActiveListGroupQuestion } = useGetInfoExercise();
+    const navigate = useNavigate();
     const {
         reset,
         register,
@@ -42,8 +43,10 @@ const CreateTopic = () => {
             ListQuestion: [],
         };
         const newListGrQuestion = [newObj, ...listGrQuestion];
+        setActiveListGroupQuestion(newObj);
         setListGrQuestion(newListGrQuestion);
         toast.success('Tạo bài test thành công');
+        navigate(path.questionManager);
         reset();
     });
 
@@ -91,7 +94,7 @@ const CreateTopic = () => {
                         </div>
                         <div style={{ textAlign: 'center', marginTop: 16 }}>
                             <Button htmlType="submit" size="large" style={{ minWidth: 150 }}>
-                                Add
+                                {'Add question ->'}
                             </Button>
                         </div>
                     </form>

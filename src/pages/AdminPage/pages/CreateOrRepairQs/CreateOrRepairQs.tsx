@@ -12,6 +12,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import useGetInfoExercise from 'src/zustand/exercise.ztd';
 import { ListQuestionTypeGr, groupQuestionType } from 'src/mock/listGroupQuestion';
 import { toast } from 'react-toastify';
+import { Exercise } from 'src/mock/listExe';
+import { ListTypeObjQuestion } from 'src/mock/listQuestion';
 const cx = classNames.bind(styles);
 
 interface Props {
@@ -33,7 +35,8 @@ const createOrRepairSchema = questionSchema.pick([
 ]);
 
 const CreateOrRepairQs = ({ setOpenInfoQuestion, questionRepair }: Props) => {
-    const { activeListGroupQuestion, listGrQuestion, setListGrQuestion } = useGetInfoExercise();
+    const { activeListGroupQuestion, listGrQuestion, setListGrQuestion, listExercise, setListExercise } =
+        useGetInfoExercise();
     const [valueCorrectAnswer, setValueCorrectAnswer] = useState<string>('');
     const [isSelectCorrectAnswer, setIsSelectCorrectAnswer] = useState<boolean>(false);
     const {
@@ -93,18 +96,6 @@ const CreateOrRepairQs = ({ setOpenInfoQuestion, questionRepair }: Props) => {
         } else {
             const newListGrQs = listGrQuestion.map((item) => {
                 if (item.id === activeListGroupQuestion?.id) {
-                    const newQuestion: ListQuestionTypeGr = {
-                        id: uuidv4(),
-                        idGroup: item.id,
-                        question: question,
-                        answer: Number(correctAnswer),
-                        listAnswer: [
-                            { id: 0, value: answerA },
-                            { id: 1, value: answerB },
-                            { id: 2, value: answerC },
-                            { id: 3, value: answerD },
-                        ],
-                    };
                     const newListQs: ListQuestionTypeGr[] = item.ListQuestion.map((item) => {
                         if (item.id === questionRepair.id && item.idGroup === questionRepair.idGroup) {
                             return {
@@ -133,9 +124,40 @@ const CreateOrRepairQs = ({ setOpenInfoQuestion, questionRepair }: Props) => {
                     return item;
                 }
             });
+            const newListExercise: Exercise[] = listExercise.map((exercise) => {
+                const newListQsExe: ListTypeObjQuestion[] = exercise.listQuestion.map((questionExe) => {
+                    if (questionExe.id === questionRepair.id && questionExe.idGroup === questionRepair.idGroup) {
+                        return {
+                            id: questionExe.id,
+                            idGroup: questionExe.idGroup,
+                            question: question,
+                            answer: Number(correctAnswer),
+                            listAnswer: [
+                                { id: 0, value: answerA },
+                                { id: 1, value: answerB },
+                                { id: 2, value: answerC },
+                                { id: 3, value: answerD },
+                            ],
+                        };
+                    } else {
+                        return questionExe;
+                    }
+                });
+                return {
+                    id: exercise.id,
+                    name: exercise.name,
+                    time: exercise.time,
+                    goal: exercise.goal,
+                    difficult: exercise.difficult,
+                    start: exercise.start,
+                    reverseQuestion: exercise.reverseQuestion,
+                    listQuestion: newListQsExe,
+                };
+            });
             setListGrQuestion(newListGrQs);
             setOpenInfoQuestion(false);
             toast.success('Update câu hỏi thành công');
+            setListExercise(newListExercise);
         }
     });
 
@@ -244,7 +266,7 @@ const CreateOrRepairQs = ({ setOpenInfoQuestion, questionRepair }: Props) => {
                         size="large"
                         type="default"
                     >
-                        Update
+                        {!questionRepair ? 'Create' : 'Update'}
                     </Button>
                 </div>
             </form>

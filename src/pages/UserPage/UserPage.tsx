@@ -5,8 +5,7 @@ import InputSearch from 'src/components/InputSearch';
 import UserInfo from 'src/components/UserInfo';
 import iconClock from 'src/assets/images/IconClock.png';
 import iconGoal from 'src/assets/images/iconGoal.png';
-import DrawerCst from 'src/components/Drawer';
-import { Exercise, listExe } from 'src/mock/listExe';
+import { Exercise } from 'src/mock/listExe';
 import IconStar from 'src/assets/IconStar';
 import PaginationCst from 'src/components/Pagination/Pagination';
 
@@ -36,15 +35,19 @@ const UserPage = () => {
     };
 
     useEffect(() => {
+        setListExeNow(listExercise);
+    }, [listExercise]);
+
+    useEffect(() => {
         if (valueDiff === 0) {
             let newList = listExercise.filter((e) =>
-                e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
+                e.name.toLocaleLowerCase().includes(valueSearch?.trim().toLocaleLowerCase() || ''),
             );
             setListExeNow(newList);
         } else {
             let newList = listExercise.filter(
                 (e) =>
-                    e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || '') &&
+                    e.name.toLocaleLowerCase().includes(valueSearch?.trim().toLocaleLowerCase() || '') &&
                     e.difficult === valueDiff,
             );
             setListExeNow(newList);

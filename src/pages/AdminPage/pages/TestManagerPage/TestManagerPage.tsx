@@ -80,15 +80,17 @@ const TestManagerPage = () => {
         setCurrentPage(page);
     };
 
-    const handleDeleteExercise = (record: Exercise | groupQuestionType) => {
-        const indexValue = listExercise.findIndex((item) => item.id === record.id);
-        const newList: Exercise[] = [...listExercise];
-        newList.splice(indexValue, 1);
-        setListExercise(newList);
-        setOpenConfirmDelete(false);
-        toast.success('Xóa bài tập thành công', {
-            autoClose: 1500,
-        });
+    const handleDeleteExercise = () => {
+        if (testDelete) {
+            const indexValue = listExercise.findIndex((item) => item.id === testDelete.id);
+            const newList: Exercise[] = [...listExercise];
+            newList.splice(indexValue, 1);
+            setListExercise(newList);
+            setOpenConfirmDelete(false);
+            toast.success('Xóa bài tập thành công', {
+                autoClose: 1500,
+            });
+        }
     };
 
     const columns: ColumnsType<Exercise> = [
@@ -105,7 +107,7 @@ const TestManagerPage = () => {
         {
             title: () => <span className={cx('title')}>Test name</span>,
             dataIndex: 'name',
-            width: '30%',
+            width: '50%',
             key: 'name',
             render: (value: any, record: Exercise) => {
                 return <div className={cx('max-line')}>{record.name}</div>;
@@ -114,7 +116,7 @@ const TestManagerPage = () => {
         {
             title: () => <span className={cx('title')}>{'Time'}</span>,
             dataIndex: 'time',
-            width: '20%',
+            width: '15%',
             key: 'time',
             render: (value: any, record: Exercise) => {
                 return <div>{record.time}</div>;
@@ -123,7 +125,7 @@ const TestManagerPage = () => {
         {
             title: () => <span className={cx('title')}>{'Start'}</span>,
             dataIndex: 'start',
-            width: '20%',
+            width: '15%',
             key: 'Start',
             render: (value: any, record: Exercise) => {
                 return <div>{record.start}</div>;
@@ -164,15 +166,16 @@ const TestManagerPage = () => {
     }, [listExercise, pageSize]);
 
     useEffect(() => {
-        let newList = listExercise.filter((e) =>
-            e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
-        );
-        setListExeNow(newList);
-    }, [valueSearch]);
-
-    useEffect(() => {
         setListExeNow(listExercise);
     }, [listExercise]);
+
+    useEffect(() => {
+        let newList = listExercise.filter((e) =>
+            e.name.toLocaleLowerCase().includes(valueSearch?.trim().toLocaleLowerCase() || ''),
+        );
+        setListExeNow(newList);
+    }, [valueSearch, listExercise]);
+
     return (
         <>
             <MenuTop element={<AdminNav />} title={'Test Manager'} />
@@ -181,8 +184,7 @@ const TestManagerPage = () => {
                     <ConfirmDelete
                         title="Bạn có chắc chắn muốn xóa bài test này?"
                         setOpen={setOpenConfirmDelete}
-                        handleDeleteExercise={handleDeleteExercise}
-                        record={testDelete}
+                        handleDelete={handleDeleteExercise}
                     />
                 }
                 open={openConfirmDelete}

@@ -4,7 +4,7 @@ import { UserAccountType, listAccountUser } from 'src/mock/listAccountUser';
 import ModalCst from 'src/components/Modal';
 import EditAccount from '../EditAccount';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useGetValueSearch from 'src/zustand/searchValue.ztd';
 import useGetListAccount from 'src/zustand/accounts.ztd';
 import Nodata from 'src/components/Nodata';
@@ -18,12 +18,12 @@ interface Props {
     pageSize: number;
     numberPage: number;
     setNumberPage: React.Dispatch<React.SetStateAction<number>>;
+    listAccountUserFilter: UserAccountType[];
 }
-const ListAccount = ({ numberPage, pageSize, setNumberPage }: Props) => {
+const ListAccount = ({ numberPage, pageSize, setNumberPage, listAccountUserFilter }: Props) => {
     const { listAccount, setListAccount } = useGetListAccount();
     const [open, setOpen] = useState(false);
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
-    const { valueSearch } = useGetValueSearch();
     const [accountUser, setAccountUser] = useState<UserAccountType>({
         id: '',
         address: '',
@@ -32,13 +32,9 @@ const ListAccount = ({ numberPage, pageSize, setNumberPage }: Props) => {
         username: '',
     });
 
-    let listAccountUserFilter = listAccount.filter((e) =>
-        e.name.toLocaleLowerCase().includes(valueSearch?.toLocaleLowerCase() || ''),
-    );
-
-    const handleDeleteAccount = (account: UserAccountType) => {
+    const handleDeleteAccount = () => {
         const newList: UserAccountType[] = [...listAccount];
-        const indexDelete = newList.findIndex((item) => item.id === account.id);
+        const indexDelete = newList.findIndex((item) => item.id === accountUser.id);
         newList.splice(indexDelete, 1);
         if (newList.length <= pageSize * numberPage && numberPage > 0) {
             setNumberPage((prev) => prev - 1);
@@ -50,6 +46,7 @@ const ListAccount = ({ numberPage, pageSize, setNumberPage }: Props) => {
             autoClose: 1500,
         });
     };
+
     return (
         <ul className={cx('wrapper')}>
             <ModalCst
@@ -62,9 +59,8 @@ const ListAccount = ({ numberPage, pageSize, setNumberPage }: Props) => {
                 Content={
                     <ConfirmDelete
                         title="Bạn có chắc chắn muốn xóa account này?"
-                        userAccount={accountUser}
                         setOpen={setOpenConfirmDelete}
-                        handleDeleteAccount={handleDeleteAccount}
+                        handleDelete={handleDeleteAccount}
                     />
                 }
                 open={openConfirmDelete}

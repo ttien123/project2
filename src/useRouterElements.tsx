@@ -17,13 +17,13 @@ import { Role } from './types/role';
 
 function UserRoute() {
     const { isAuthenticated } = useGetIsAuthenticated();
-    // return isAuthenticated === Role.USER ? <Outlet /> : <Navigate to={path.login} />;
-    return <Outlet />;
+    return isAuthenticated === Role.USER ? <Outlet /> : <Navigate to={path.login} />;
+    // return <Outlet />;
 }
 function AdminRoute() {
     const { isAuthenticated } = useGetIsAuthenticated();
-    // return isAuthenticated === Role.ADMIN ? <Outlet /> : <Navigate to={path.login} />;
-    return <Outlet />;
+    return isAuthenticated === Role.ADMIN ? <Outlet /> : <Navigate to={path.login} />;
+    // return <Outlet />;
 }
 
 function IsAuth() {
